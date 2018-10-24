@@ -16,7 +16,6 @@ var c_geo;
       clearInterval(ncmbTimer);
 
       userid=id;
-      console.log(userid);
       //開始期間、終了期間と比較
       var events = ncmb.DataStore(dbName);
       events .lessThanOrEqualTo("startDate",today)
@@ -106,7 +105,6 @@ document.addEventListener('init', function(event) {
     })
     
     document.getElementById("info-title").innerHTML = page.data.title;
-    //document.getElementById("info-img").src = page.data.img;
     document.getElementById("info-detail").innerHTML = page.data.detail;
     break;
 
@@ -128,7 +126,6 @@ document.addEventListener('init', function(event) {
     })
     
     document.getElementById("info-title").innerHTML = page.data.title;
-    //document.getElementById("info-img").src = page.data.img;
     document.getElementById("info-detail").innerHTML = page.data.detail;
     break;
     
