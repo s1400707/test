@@ -1,39 +1,38 @@
-var reader;
-var c_objectId2       //詳細画面のobjectId
-var userid='';             //installationのobjectId
-var showCoupon;  //ダイアログに表示するdetail保存
-var e_name;
-var e_geo;
-var c_geo;
+var reader='';               //画像読み込み
+var c_objectId2='';       //詳細画面のobjectId
+var userid='';               //installationのobjectId
+var showCoupon='';     //ダイアログに表示するdetail保存
+var e_name='';           //イベント名
+var e_geo='';             //イベントの位置
+var c_geo='';              //クーポンの位置
 
-$(window).load(function(){
-  var  today=getDay();　//日付取得
-  var dbName='Coupon_List';
+//アプリ起動時、Coupon_Recordへクーポンの登録
+document.addEventListener('deviceready',function() {
+  var  today=getDay();　             //日付取得
+  var dbName='Coupon_List';       
   var items ='';
-  var ncmbTimer = setInterval(function() {
-    window.NCMB.monaca.getInstallationId(function(id) {
-      if (id) {
+
+  var ncmbTimer = setTimeout(function() {         //登録されるまで時間稼ぎ
+    window.NCMB.monaca.getInstallationId(function(id) {  //デバイストークン取得
+      if (id) {                                                                     //取得後
         clearInterval(ncmbTimer);
         userid=id;
-        //開始期間、終了期間と比較
-        var events = ncmb.DataStore(dbName);
-        events .lessThanOrEqualTo("startDate",today)
+        var events = ncmb.DataStore(dbName);           //開始日、終了日以内のものを取得
+        events .lessThanOrEqualTo("startDate",today) 
         .greaterThanOrEqualTo("endDate",today)
         .fetchAll() 
         .then(function(results){
           for (var  i= 0; i< results.length; i++) {
-           (function() {
-              var j=i;
-              var result=results[j];
-              var myCoupon = ncmb.DataStore("Coupon_Record");
+           (function() {            //即時間数
+              var result=results[i];
+              var myCoupon = ncmb.DataStore("Coupon_Record");  //データがあるか確認
               var mycoupon=new myCoupon();
-              //データがあるか判別
               myCoupon.equalTo("deviceId",userid)
               .equalTo("couponId",result.get("objectId"))
               .count()
               .fetchAll()
               .then(function(results1){
-                if(results1.count==0){　　//１つもない
+                if(results1.count==0){　　//データがないとき、登録
                   mycoupon.set("deviceId",userid)
                   .set("couponId",result.get("objectId"))
                   .set("name",result.get("name"))
@@ -46,18 +45,18 @@ $(window).load(function(){
                 }                     
              })
              .catch(function(err){
-                console.log(err) // エラー処理
+                console.log(err); // エラー処理
               });  
             })();  
           } 
         })
         .catch(function(err){
-          console.log(err) // エラー処理
+          console.log(err); // エラー処理
         });   
       }
    });
   }, 1000);
-});
+}, false );
   
 
 document.addEventListener('init', function(event) {
@@ -150,75 +149,72 @@ document.addEventListener('init', function(event) {
   }
 });
 
+//ニュース、クーポン、イベント一覧表示
 function displayList(dbName, listId){
   var  today=getDay();　//日付取得
   var c_objectId1=[]; //リスト表示時のCoupon_listのobjectId保存
-  var c_name=[];
-  var value=0; 
+  var c_name=[];      //クーポンの名前
+  var value=0;          //クーポンの回数
   var c_limit=[];       //取得したクーポン使用回数
-  var items ='';
-  var flag= document.createDocumentFragment();
-  var frame= document.getElementById(listId);
+  var items ='';         //取得したデータ
+  var deadline='';      //開催期間格納
+  var flag= document.createDocumentFragment();  //フラグメント
+  var frame= document.getElementById(listId);      
 
-　//開始期間、終了期間と比較
-  var events = ncmb.DataStore(dbName);
+  var events = ncmb.DataStore(dbName);             //開始期間、終了期間と比較、名前でソート
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .order("name")
   .fetchAll() 
   .then(function(results){
     for (var  i= 0; i< results.length; i++) {
-      (function() {
-        var j=i;
-        var result=results[j];
+      (function() {                                          //即時関数
+        var result=results[i];
      
-           //使用期間表示方法
-        if(result.endDate=='2999/12/31' ){
-          var deadline='';
-        }else{
+        if(result.endDate=='2999/12/31' ){            //期間が決まっていない
+         deadline='';
+        }else{                                                      //決まっている
           deadline=result.get("startDate")+'～'+result.get("endDate");
         }
 
-        //クーポン
         switch(dbName){
-          case "Coupon_List":
-            c_objectId1=result.get("objectId");  
-            var myCoupon = ncmb.DataStore("Coupon_Record");
-          //データがあるか判別
+          case "Coupon_List":                             //クーポンのとき
+            c_objectId1=result.get("objectId");      //クーポンのオブジェクトID保存
+            var myCoupon = ncmb.DataStore("Coupon_Record");　          //データがあるか判別
             myCoupon.equalTo("deviceId",userid)
               .equalTo("couponId",c_objectId1)
               .notEqualTo("limit",0)
               .fetchAll()
               .then(function(results1){
                   
-                c_limit[j]=results1[0].get("limit");
-                if(c_limit[j]<=-1){
-                  c_limit[j]='∞';
+                c_limit[i]=results1[0].get("limit");　　　　//クーポン回数取得
+                if(c_limit[i]<=-1){                                   //-1以下（無制限）のとき
+                  c_limit[i]='∞';
                 }
-                var  reader = new FileReader();  //ファイルの読み込み 
-                var img = ncmb.DataStore("Item_info");
+                var  reader = new FileReader();  　　　　//ファイルの読み込み 
+                var img = ncmb.DataStore("Item_info");　
                 img.equalTo("objectId",result.get("link"))
                 .fetchAll() 
-                .then(function(results){
-                  var pic=results[0].get("img");
+                .then(function(results){    
+                  var pic=results[0].get("img");        //画像取得
         
                   loadNews(pic,reader) ;
-                  reader.onload=function(e){
+                  reader.onload=function(e){         //取得終了
                     dbName="Coupon_Record";
-                    items = document.createElement('ons-list-item');
+                    items = document.createElement('ons-list-item');  //アイテム表示
                     items.className="listItem";
                     items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                    items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  残り'+c_limit[j]+' '+deadline+'</span></div>';
+                    items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  残り'+c_limit[i]+' '+deadline+'</span></div>';
                     flag.appendChild(items);       
                     frame.appendChild(flag);
                   }
                 })
-                .catch(function(err){
-                  console.log(err) // エラー処理
+                .catch(function(err){  
+                  console.log(err); // エラー処理
                 });  
               })
               .catch(function(err){
-                console.log(err) // エラー処理
+                console.log(err);// エラー処理
               });     
 
             break;
@@ -253,7 +249,7 @@ function displayList(dbName, listId){
                 }     
               })
               .catch(function(err){
-                console.log(err) // エラー処理
+                console.log(err) ;// エラー処理
               });    
             break;
           }
@@ -284,7 +280,7 @@ function onClickItem(itemLink,dbName,objectId){
     onClickInfo(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId);
   })
   .catch(function(err){
-    console.log("error") // エラー処理
+    console.log("error"); // エラー処理
   }); 
 }
 
@@ -341,15 +337,15 @@ function CheckMove(url,title) {
 //クーポン使用okボタン押下
 function registerCoupon(){
   alert("画面を見せてください\n\n"+showCoupon);            
-  var myCoupon = ncmb.DataStore("Coupon_Record");
+  var geo='';
+  var startDate='';
+  var endDate='';
+  var count=0;
+  var name='';
+  var link='';
+
+  var myCoupon = ncmb.DataStore("Coupon_Record");     //データがあるか判別
   var mycoupon=new myCoupon();
-  var geo;
-  var startDate;
-  var endDate;
-  var count;
-  var name;
-  var link;
-  //データがあるか判別
   myCoupon.equalTo("deviceId",userid)
   .equalTo("couponId",c_objectId2)
   .fetchAll()
@@ -359,7 +355,7 @@ function registerCoupon(){
     endDate=results[0].get("endDate");
     name=results[0].get("name");
     link=results[0].get("link");
-    if(results[0].get("limit")==-2){  //無制限のと
+    if(results[0].get("limit")==-2){  //無制限のとき
       results[0].delete();
       mycoupon.set("deviceId",userid)
       .set("couponId",c_objectId2)
@@ -385,7 +381,7 @@ function registerCoupon(){
     }
   })
   .catch(function(err){
-    console.log(err) // エラー処理
+    console.log(err); // エラー処理
   }); 
   NatNavi.popPage();
 }
@@ -442,7 +438,6 @@ function showMap(dbName){
 function searchInfo(dbName,listId){
   var items='';
   var searchName = mySearch.value;
-  var events = ncmb.DataStore(dbName);
   var c_objectId='';
   var c_limit=0;       //取得したクーポン使用回数
   var  today=getDay(); //日付取得
@@ -455,7 +450,8 @@ function searchInfo(dbName,listId){
   if(searchName==''){
     return;
   }
-
+  
+  var events = ncmb.DataStore(dbName);
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .regularExpressionTo("name", searchName)
@@ -489,7 +485,7 @@ function searchInfo(dbName,listId){
             frame.appendChild(flag);        
           })
          .catch(function(err){
-           console.log(err) // エラー処理
+           console.log(err); // エラー処理
          });  
        }else{
           resultClass=results[j].get("class");
@@ -503,7 +499,7 @@ function searchInfo(dbName,listId){
     }
   })
   .catch(function(err){
-    console.log(err) // エラー処理
+    console.log(err); // エラー処理
   }); 
 }
 
