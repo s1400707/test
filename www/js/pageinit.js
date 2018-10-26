@@ -441,12 +441,11 @@ function searchInfo(dbName,listId){
   var c_objectId='';
   var c_limit=0;       //取得したクーポン使用回数
   var  today=getDay(); //日付取得
-  var resultClass='';
+  //var resultClass='';
   var flag= document.createDocumentFragment();
   var frame= document.getElementById(listId);
 
-  //入欄初期化
-  document.getElementById(listId).innerHTML= '';
+  document.getElementById(listId).innerHTML= '';　　　//入力欄初期化
   if(searchName==''){
     return;
   }
@@ -463,7 +462,7 @@ function searchInfo(dbName,listId){
        var result=results[j];
         console.log(result.get("objectId"));
         if(dbName=="Coupon_List"){
-          resultClass='';
+          //resultClass='';
           var myCoupon = ncmb.DataStore("Coupon_Record");
           c_objectId=result.get("objectId");
           //データがあるか判別
@@ -488,7 +487,7 @@ function searchInfo(dbName,listId){
            console.log(err); // エラー処理
          });  
        }else{
-          resultClass=results[j].get("class");
+          //resultClass=results[j].get("class");
           items= document.createElement('ons-list-item');
           items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
           items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span></div>';
