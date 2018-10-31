@@ -55,7 +55,7 @@ document.addEventListener('deviceready',function() {
         });   
       }
    });
-  }, 1000);
+  }, 2000);
 }, false );
   
 
@@ -228,9 +228,9 @@ function displayList(dbName, listId){
                document.getElementById(listId).insertAdjacentHTML('beforeend', items);
               }
             break;
-
-              //以外
-            default: 
+          
+            case "Event_List":            //イベント
+              if(result.get("mainEventName")==result.get("name")){
               var  reader = new FileReader();  //ファイルの読み込み 
               var img = ncmb.DataStore("Item_info");
               img.equalTo("objectId",result.get("link"))
@@ -243,14 +243,15 @@ function displayList(dbName, listId){
                   items= document.createElement('ons-list-item');
                   items.className="listItem";
                   items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                  items.innerHTML='<div class="left" id="imgIcon"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+deadline+'</span></div>';
+                  items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+deadline+'</span></div>';
                   flag.appendChild(items);       
                   frame.appendChild(flag);
                 }     
               })
               .catch(function(err){
                 console.log(err) ;// エラー処理
-              });    
+              });   
+              } 
             break;
           }
         }) ();   
@@ -413,7 +414,7 @@ function showMap(dbName){
     NatNavi.popPage();
     fn.load('map.html');
     var countup = function(){
-      if(dbName=='Coupon_Record'){
+      if(dbName=='Coupon_Record'){ //クーポン
         var events = ncmb.DataStore(dbName);
         events.equalTo("deviceId",userid)
         .equalTo("couponId",c_objectId2)
@@ -423,7 +424,7 @@ function showMap(dbName){
           find_couponpoint(checkDataStore);
           eventmap(c_geo.longitude,c_geo.latitude);
         })
-      }else{
+      }else{   //イベント
         find_eventpoint(checkDataStore,e_name);
         eventmap(e_geo.longitude,e_geo.latitude);
       }

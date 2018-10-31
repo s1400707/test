@@ -226,6 +226,9 @@ function find_geopoint(checkDataStore){
   
                 for (var i = 0; i <= results.length; i++) {
                     var result = results[i];
+                    if(checkDataStore=="Event_List" && (result.get("mainEventName")!=result.get("name"))){
+                      continue;
+                    }
                     markers.push(new OpenLayers.Layer.Markers("Markers"));
                     map.addLayer(markers[markers.length-1]);
                     var regist_location = result.get("geo");
@@ -400,7 +403,7 @@ function selectIcon(type) {
     switch(type){
         case '現在地':          icon = 'img/me.png'; break;
         case 'Event_List':    icon = 'img/marker_ibe32.png'; break;
-        case 'Event_Map':    icon = 'img/marker_ibe32.png'; break;
+        //case 'Event_Map':    icon = 'img/marker_ibe32.png'; break;
         case 'Tourism_List':        icon = 'img/marker_kan32.png'; break;
         case 'Coupon_List':    icon = 'img/marker_cuu32.png'; break;
           case 'Coupon_Record':    icon = 'img/marker_cuu32.png'; break;
