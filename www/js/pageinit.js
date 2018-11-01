@@ -7,12 +7,13 @@ var e_geo='';             //イベントの位置
 var c_geo='';              //クーポンの位置
 
 //アプリ起動時、Coupon_Recordへクーポンの登録
-document.addEventListener('deviceready',function() {
+// document.addEventListener('deviceready',function() {
+  function first_Register(){
   var  today=getDay();　             //日付取得
   var dbName='Coupon_List';       
   var items ='';
 
-  var ncmbTimer = setTimeout(function() {         //登録されるまで時間稼ぎ
+  var ncmbTimer = setInterval(function() {         //登録されるまで時間稼ぎ
     window.NCMB.monaca.getInstallationId(function(id) {  //デバイストークン取得
       if (id) {                                                                     //取得後
         clearInterval(ncmbTimer);
@@ -55,8 +56,8 @@ document.addEventListener('deviceready',function() {
         });   
       }
    });
-  }, 2000);
-}, false );
+  }, 5000);
+}//, false );
   
 
 document.addEventListener('init', function(event) {

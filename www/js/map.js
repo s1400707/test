@@ -48,7 +48,6 @@ OpenLayers.Control.Crosshairs = OpenLayers.Class(OpenLayers.Control, {
 
 //OSMの描画
 function writemap(lon,lat) {
-    //名取の表示 140.883215,38.173054
     var lonLat = new OpenLayers.LonLat(lon,lat)  
         .transform(
             projection4326, 
@@ -77,8 +76,7 @@ function writemap(lon,lat) {
     map.addLayer(meMarker);
    
    //選択されているマーカーを表示
-    markers=[];
-    //Checkbox();    
+    markers=[]; 
 }
 
 function startTracking(){
@@ -131,8 +129,7 @@ function startDrawCurrentPosition() {
 }
 
 //OSMの描画時に位置情報取得に成功した場合のコールバック
-function onInitGeoSuccess(position){
-   //writemap(position.coords.longitude,position.coords.latitude);      
+function onInitGeoSuccess(position){ 
  writemap( 140.883215,38.173054);  
     startTracking();
 };
@@ -153,7 +150,6 @@ function eventmap(lon,lat){
 function onGeoSuccess(position){
     current = new CurrentPoint();    
     current.geopoint = position.coords; //位置情報を保存する
-  //  writemap(current.geopoint.longitude,current.geopoint.latitude);
   writemap(140.883215,38.173054);
 };
 
@@ -244,17 +240,7 @@ function find_geopoint(checkDataStore){
                     
                     //マーカー名と詳細ボタンをポップアップで表示
                     marker.tag = regist_name;
-                    // switch(checkDataStore){
-                      // case 'Coupon_List':
-                      //    marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+')">詳しく</button>';
-                      // break;
-                    //   case 'Event_List':
-                    //      marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+')">詳しく</button>';
-                    //  break;
-                    //  default:
                        marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"''"+')" >詳しく</button>';
-               //     break;
-                //    }
                     // マーカーをタップした際にポップアップを表示
                     marker.events.register("touchstart", marker, function(event) {
                      // すでに別なポップアップが開いていたら消す
@@ -506,8 +492,6 @@ function tracking() {
               new OpenLayers.Projection("EPSG:4326"),
               map.getProjectionObject() );
           map.setCenter(lonLat);
-//        showMsg('getCurrentPosition',
-//          pos.coords.longitude + ', ' +  pos.coords.latitude);
         },
         function(err) {
           console.log('getCurrentPosition:'+err.message);

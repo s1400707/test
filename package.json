@@ -12,7 +12,9 @@
         "cordova-plugin-dialogs": "2.0.1",
         "cordova-plugin-splashscreen": "5.0.1",
         "cordova-plugin-globalization": "1.0.9",
-        "cordova-plugin-geolocation": "4.0.1"
+        "cordova-plugin-geolocation": "4.0.1",
+        "cordova-plugin-network-information": "2.0.1",
+        "cordova-instagram-plugin": "file:plugins/cordova-instagram-plugin"
     },
     "cordova": {
         "plugins": {
@@ -28,7 +30,9 @@
             "cordova-plugin-dialogs": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-globalization": {},
-            "cordova-plugin-geolocation": {}
+            "cordova-plugin-geolocation": {},
+            "cordova-plugin-network-information": {},
+            "cordova-instagram-plugin": {}
         }
     },
     "scripts": {
