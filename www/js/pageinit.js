@@ -13,6 +13,7 @@ var c_geo='';              //クーポンの位置
   var dbName='Coupon_List';       
   var items ='';
 
+  console.log("coupon");
   var ncmbTimer = setInterval(function() {         //登録されるまで時間稼ぎ
     window.NCMB.monaca.getInstallationId(function(id) {  //デバイストークン取得
       if (id) {                                                                     //取得後
@@ -413,7 +414,7 @@ function showMap(dbName){
   if(window.confirm('地図を開きますか？')){
     checkDataStore=dbName;
     NatNavi.popPage();
-    fn.load('map.html');
+    fn.load('tab2.html');
     var countup = function(){
       if(dbName=='Coupon_Record'){ //クーポン
         var events = ncmb.DataStore(dbName);
