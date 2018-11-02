@@ -67,7 +67,7 @@ function writemap(lon,lat) {
     } );
     map.addControl(cross);
 
-    console.log(lat+":"+lon+":");
+    //console.log(lat+":"+lon+":");
 
     map.setCenter(lonLat, 15);
     
@@ -103,7 +103,7 @@ function successWatch(position){
     meMarker.destroy();
     
     if(mode != 0){
-        console.log(position.coords.latitude+":"+position.coords.longitude);
+       // console.log(position.coords.latitude+":"+position.coords.longitude);
         meMarker = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(meMarker);
         meMarker.addMarker(marker);
@@ -205,7 +205,7 @@ function find_geopoint(checkDataStore){
     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
       var  today=getDay();　//日付取得
         var geoPoint = new ncmb.GeoPoint(lonLat.lat, lonLat.lon);
-        console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
+       // console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
         
         var PlacePointsClass = ncmb.DataStore(checkDataStore);
         //ニフティクラウド mobile backendにアクセスして検索開始位置を指定
@@ -267,7 +267,7 @@ function find_eventpoint(checkDataStore,e_name){
     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
       var  today=getDay();　//日付取得
         var geoPoint = new ncmb.GeoPoint(lonLat.lat, lonLat.lon);
-        console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
+       // console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
         
         var PlacePointsClass = ncmb.DataStore(checkDataStore);
         //ニフティクラウド mobile backendにアクセスして検索開始位置を指定
@@ -328,7 +328,7 @@ function find_couponpoint(checkDataStore){
     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
       var  today=getDay();　//日付取得
         var geoPoint = new ncmb.GeoPoint(lonLat.lat, lonLat.lon);
-        console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
+        //console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
         
         var PlacePointsClass = ncmb.DataStore(checkDataStore);
         //ニフティクラウド mobile backendにアクセスして検索開始位置を指定
@@ -514,9 +514,9 @@ var showDialog = function() {
   }
 };
 
-var hideDialog = function(id) {
-  document
-    .getElementById(id)
-    .hide();
-};
+// var hideDialog = function(id) {
+//   document
+//     .getElementById(id)
+//     .hide();
+// };
 
