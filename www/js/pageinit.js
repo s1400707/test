@@ -227,9 +227,9 @@ function displayList(dbName, listId){
              var pic=result.get("thumbnail");
              loadNews(pic,reader);
              reader.onload= function(e){ //読み込み終了
-               items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src ="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span><span class="list-item__title">'+deadline+'</span></div></ons-carousel-item>';                 
-               document.getElementById(listId).insertAdjacentHTML('beforeend', items);
-              }
+              items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src ="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span><span class="list-item__title">'+deadline+'</span></div></ons-carousel-item>';                 
+              document.getElementById(listId).insertAdjacentHTML('beforeend', items);
+            }
             break;
           
             case "Event_List":            //イベント
@@ -340,49 +340,18 @@ function CheckMove(url,title) {
 
 //クーポン使用okボタン押下
 function registerCoupon(){
-  alert("画面を見せてください\n\n"+showCoupon);            
-  var geo='';
-  var startDate='';
-  var endDate='';
-  var count=0;
-  var name='';
-  var link='';
+   alert("画面を見せてください\n\n"+showCoupon);      
+  var count=0;     //現在の回数
 
   var myCoupon = ncmb.DataStore("Coupon_Record");     //データがあるか判別
-  var mycoupon=new myCoupon();
   myCoupon.equalTo("deviceId",userid)
   .equalTo("couponId",c_objectId2)
   .fetchAll()
   .then(function(results){
-    geo=results[0].get("geo");
-    startDate=results[0].get("startDate");
-    endDate=results[0].get("endDate");
-    name=results[0].get("name");
-    link=results[0].get("link");
-    if(results[0].get("limit")==-2){  //無制限のとき
-      results[0].delete();
-      mycoupon.set("deviceId",userid)
-      .set("couponId",c_objectId2)
-      .set("limit",-2)
-      .set("name",name)
-      .set("startDate",startDate)
-      .set("endDate",endDate)
-      .set("geo",geo)
-      .set("link",link)
-      .save()
-    }else {  //まだつかえるとき
       count=results[0].get("limit");
-      results[0].delete();
-      mycoupon.set("deviceId",userid)
-      .set("couponId",c_objectId2)
-      .set("limit",count-1)
-      .set("name",name)
-      .set("startDate",startDate)
-      .set("endDate",endDate)
-      .set("geo",geo)
-      .set("link",link)
-      .save()
-    }
+      console.log(count);
+      results[0].set("limit",count-1)
+      return results[0].update();
   })
   .catch(function(err){
     console.log(err); // エラー処理
