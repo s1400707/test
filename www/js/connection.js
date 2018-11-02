@@ -1,9 +1,9 @@
 //接続状況確認
 var online = false;
 var onOnline = function () {
-  hideDialog();
     console.log("I'm online");
     online = true;
+     hideDialog();
 }
 var onOffline = function () {
     //alert("データが取得できません。接続状況を確認してください。");
@@ -28,8 +28,8 @@ var alertOffline = function() {
   }
 };
 
-var hideDialog = function(id) {
-  document
+var hideDialog = function() {
+    document
     .getElementById('dialog1')
     .hide();
 };

@@ -2,13 +2,11 @@
 var ncmb = new NCMB(applicationKey, clientKey);
 
 // 初期設定
-function onLoad(){
   document.addEventListener("deviceready", initFunc(),false);
-}
 
 function initFunc() {
+   first_Register();       //クーポン登録
   pushInit();               //プッシュ通知
-  first_Register();       //クーポン登録
   console.log("onload");
 }
 

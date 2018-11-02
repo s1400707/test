@@ -1,12 +1,13 @@
-function pushInit() {
-    // [NCMB] プッシュ通知受信時のコールバックを登録します
-    window.NCMB.monaca.setHandler (function(jsonData){
-        // 送信時に指定したJSONが引数として渡されます
-        //alert("callback:" + JSON.stringify(jsonData));
-    })
+ function pushInit() {
+//    // [NCMB] プッシュ通知受信時のコールバックを登録します
+//    window.NCMB.monaca.setHandler (function(jsonData){
+//         送信時に指定したJSONが引数として渡されます
+//         alert("callback:" + JSON.stringify(jsonData));
+//    })
 
-   // [NCMB] デバイストークンを取得しinstallationに登録
-    window.NCMB.monaca.setDeviceToken(
+
+// [NCMB] デバイストークンを取得しinstallationに登録
+window.NCMB.monaca.setDeviceToken(
         applicationKey,
         clientKey,
         senderId,
@@ -23,4 +24,5 @@ function pushInit() {
     var errorCallback = function (err) {
       console.log("getTokenErr");
     };
-}
+ }
+

@@ -18,6 +18,7 @@ var c_geo='';              //クーポンの位置
     window.NCMB.monaca.getInstallationId(function(id) {  //デバイストークン取得
       if (id) {                                                                     //取得後
         clearInterval(ncmbTimer);
+        console.log("getid");
         userid=id;
         var events = ncmb.DataStore(dbName);           //開始日、終了日以内のものを取得
         events .lessThanOrEqualTo("startDate",today) 
@@ -162,11 +163,11 @@ function displayList(dbName, listId){
   var deadline='';      //開催期間格納
   var flag= document.createDocumentFragment();  //フラグメント
   var frame= document.getElementById(listId);      
-
   var events = ncmb.DataStore(dbName);             //開始期間、終了期間と比較、名前でソート
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .order("name")
+  .limit(10)
   .fetchAll() 
   .then(function(results){
     for (var  i= 0; i< results.length; i++) {
@@ -188,7 +189,7 @@ function displayList(dbName, listId){
               .notEqualTo("limit",0)
               .fetchAll()
               .then(function(results1){
-                  
+               
                 c_limit[i]=results1[0].get("limit");　　　　//クーポン回数取得
                 if(c_limit[i]<=-1){                                   //-1以下（無制限）のとき
                   c_limit[i]='∞';
@@ -218,8 +219,8 @@ function displayList(dbName, listId){
               .catch(function(err){
                 console.log(err);// エラー処理
               });     
-
             break;
+
                //ニュース
            case "News_List":
              var  reader = new FileReader();  //ファイルの読み込み 
