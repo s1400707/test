@@ -1,6 +1,6 @@
 <!--クーポン詳細-->
 <ons-page id="coupon-info-page" >
-    <ons-toolbar style="background-color:#81DAF5">
+    <ons-toolbar  class="toolbar">
         <div class="left"><ons-back-button>戻る</ons-back-button></div>
         <div class="center">情報</div>
     </ons-toolbar>
@@ -9,10 +9,12 @@
     </div>
         <image id="info-img" src="./img/noimage.png"   class="detailImage"></image>
 
-    <div> 
-      <ons-button  onclick="couponDialog()" class="btn">クーポン使用</ons-button>  
+    <span id="couponBtn"> 
+
+    </span>
+    <span>
       <ons-button  onclick="showMap('Coupon_Record')" class="btn">地図</ons-button>  
-    </div>
+    </span>
 
     <div align="left">
       <pre>

@@ -94,7 +94,27 @@ document.addEventListener('init', function(event) {
     case 'coupon-info-page':
       //情報ページ表示時の初期設定
     console.log(page.data.title);
-    
+
+    //var infoLimit = document.getElementById("couponLimit");
+    var myCoupon = ncmb.DataStore("Coupon_Record");　          //データがあるか判別
+    var c_limit='';
+    myCoupon.equalTo("deviceId",userid)
+    .equalTo("couponId",page.data.couponId)
+    .fetchAll()
+    .then(function(result){
+       c_limit=result[0].get("limit");
+       if(c_limit<=-1){
+         c_limit='無制限';
+       }
+      
+      if(c_limit==0){
+          document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      }else{
+       document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog()" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      }
+
+    });
+
     var reader = new FileReader();
     reader.onload = function(e) {
       var dataUrl = reader.result;
@@ -270,7 +290,7 @@ function displayList(dbName, listId){
             break;
           }
         }) ();   
-      } 
+      }  
   })
 }
 
@@ -307,6 +327,8 @@ function onClickInfo(title,detail,img,dbName,objectId){
   options.data.title = title;
   options.data.detail = detail;
   options.data.img = img;
+  options.data.couponId=objectId;
+
   switch(dbName){
     case "Coupon_List":
       c_objectId2=objectId;
@@ -368,6 +390,7 @@ function registerCoupon(){
   .catch(function(err){
     console.log(err); // エラー処理
   }); 
+  //displayList("Coupon_List", "couponItems");
   NatNavi.popPage();
 }
 
@@ -389,6 +412,10 @@ function couponDialog(){
 	} else{
   	window.alert('キャンセルされました'); 
 	}
+}
+
+function couponLimit(){
+  console.log("aaa");
 }
 
 //地図
