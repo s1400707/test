@@ -14,6 +14,9 @@ var c_geo='';              //クーポンの位置
   var items ='';
 
   console.log("coupon");
+  // var modal = document.querySelector('ons-modal');
+  // modal.show();
+
   var ncmbTimer = setInterval(function() {         //登録されるまで時間稼ぎ
     window.NCMB.monaca.getInstallationId(function(id) {  //デバイストークン取得
       if (id) {                                                                     //取得後
@@ -59,6 +62,7 @@ var c_geo='';              //クーポンの位置
       }
    });
   }, 5000);
+   // modal.hide();
 }//, false );
   
 
@@ -142,7 +146,12 @@ document.addEventListener('init', function(event) {
 
     case 'coupon-page':
       //クーポンページ
+      var listTimer = setInterval(function() { 
+      if(userid!=''){
+      clearInterval(listTimer);
       displayList("Coupon_List", "couponItems");
+      }
+      },5000);
     break;
           
     case 'event-page':
@@ -167,7 +176,7 @@ function displayList(dbName, listId){
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .order("name")
-  .limit(10)
+  .limit(3)
   .fetchAll() 
   .then(function(results){
     for (var  i= 0; i< results.length; i++) {
@@ -227,9 +236,12 @@ function displayList(dbName, listId){
              var pic=result.get("thumbnail");
              loadNews(pic,reader);
              reader.onload= function(e){ //読み込み終了
-              items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src ="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span><span class="list-item__title">'+deadline+'</span></div></ons-carousel-item>';                 
+                // var dataUrl = reader.result;
+                // document.getElementById("newsImg").src = dataUrl;
+            
+              items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span><span class="list-item__title">'+deadline+'</span></div></ons-carousel-item>';                 
               document.getElementById(listId).insertAdjacentHTML('beforeend', items);
-            }
+             }
             break;
           
             case "Event_List":            //イベント
@@ -381,21 +393,21 @@ function couponDialog(){
 
 //地図
 function showMap(dbName){
-  if(window.confirm('地図を開きますか？')){
+  if(window.confirm('地図に目的地を表示します')){
     checkDataStore=dbName;
     NatNavi.popPage();
-    fn.load('tab2.html');
+   // onClickTopBtn('map_tab.html');
     var countup = function(){
       if(dbName=='Coupon_Record'){ //クーポン
-        var events = ncmb.DataStore(dbName);
-        events.equalTo("deviceId",userid)
-        .equalTo("couponId",c_objectId2)
-        .fetchAll() 
-        .then(function(result){
-          var c_geo=result[0].get("geo");
+        // var events = ncmb.DataStore(dbName);
+        // events.equalTo("deviceId",userid)
+        // .equalTo("couponId",c_objectId2)
+        // .fetchAll() 
+        // .then(function(result){
+        //    var c_geo=result[0].get("geo");
           find_couponpoint(checkDataStore);
           eventmap(c_geo.longitude,c_geo.latitude);
-        })
+      //  })
       }else{   //イベント
         find_eventpoint(checkDataStore,e_name);
         eventmap(e_geo.longitude,e_geo.latitude);
@@ -410,14 +422,19 @@ function showMap(dbName){
 //イベント等検索
 function searchInfo(dbName,listId){
   var items='';
-  var searchName = mySearch.value;
+  var searchName = '';
   var c_objectId='';
   var c_limit=0;       //取得したクーポン使用回数
   var  today=getDay(); //日付取得
   //var resultClass='';
   var flag= document.createDocumentFragment();
   var frame= document.getElementById(listId);
-
+ console.log("aaa");
+  if(listId=="searchCouponItems"){      //クーポン
+    searchName=couponSearch.value;
+  }else{                                                   //イベント
+    searchName=eventSearch.value;
+  }
   document.getElementById(listId).innerHTML= '';　　　//入力欄初期化
   if(searchName==''){
     return;
@@ -434,7 +451,7 @@ function searchInfo(dbName,listId){
         var j=i;
        var result=results[j];
         console.log(result.get("objectId"));
-        if(dbName=="Coupon_List"){
+        if(dbName=="Coupon_List"){         //クーポンのとき
           //resultClass='';
           var myCoupon = ncmb.DataStore("Coupon_Record");
           c_objectId=result.get("objectId");
@@ -460,7 +477,7 @@ function searchInfo(dbName,listId){
            console.log(err); // エラー処理
          });  
        }else{
-          //resultClass=results[j].get("class");
+          console.log("bbb");
           items= document.createElement('ons-list-item');
           items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
           items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span></div>';

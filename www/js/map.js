@@ -107,6 +107,13 @@ function successWatch(position){
         meMarker = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(meMarker);
         meMarker.addMarker(marker);
+         var lonLat = new OpenLayers.LonLat( 140.883215,38.173054) 
+    .transform(
+            projection4326, 
+            projection900913
+        );
+   //console.log(lonLat+"aaa"); 
+    map.setCenter(lonLat,15);
     }
     
     if(mode == 2) {
@@ -452,7 +459,7 @@ function tracking() {
     switch(mode){
         case 0: //現在地を非表示
             mode = 1;  
-            tracking_mode.innerHTML = '現在地を表示';
+            tracking_mode.innerHTML = '名取';
             startTracking();
             break; 
     
@@ -461,7 +468,7 @@ function tracking() {
               function (heading) {
                 $("#compass")
                   .css("transform", "rotate(" + heading.magneticHeading + "deg)");
-                   console.log('Orientation: ' + heading.magneticHeading);
+                  //  console.log('Orientation: ' + heading.magneticHeading);
               },
               function (err) {
                 console.log('watchHeading:'+err.message);
@@ -469,7 +476,7 @@ function tracking() {
               {frequency: 1000}
             );
             mode = 2;
-            tracking_mode.innerHTML = '現在地を中心に表示';
+            tracking_mode.innerHTML = '現在地';
             break;
             
         case 2: //現在地を中心に表示
@@ -477,7 +484,7 @@ function tracking() {
             mode = 0;
             $("#compass")
                   .css("transform", "rotate(0deg)");
-            tracking_mode.innerHTML = '現在地を非表示';
+            tracking_mode.innerHTML = '自由';
             stopTracking();
             break;
     }

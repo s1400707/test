@@ -28,11 +28,11 @@ table.installationData td {
    display: inline-block;
    color:#FFF;
     width: 30%;
-    height: 20%;
-    line-height: 15vw;
+    height: 10vh;
     border-radius: 10%;
+    line-height: 15vw;
     text-align: center;
-    font-size:4vw;
+    font-size:100%;
     vertical-align: middle;
     overflow: hidden;  
     margin-top: 2vh;
@@ -62,9 +62,35 @@ table.installationData td {
     border-bottom: solid 3px #bd6565;
 }
 
+/*マップ*/
 .map{
     width: 100%;
     height: 100vh;
+    position:  relative;        
+    z-index: 1;   
+}            
+
+.mapOption{
+    position:  absolute;        /* 位置指定 */
+    z-index: 2;               /* 重なり順指定 */
+    top:0%;
+    right:0%;
+    text-align:center;
+    display: inline-block;
+    border-bottom: solid 4px #627295;
+    background:  rgba(1,0,255,0);
+}
+
+.mapBtn{
+  display: inline-block;
+   color:#FFF;
+  text-align: center;
+  border-radius: 10%;
+  vertical-align: middle;
+  overflow: hidden;  
+  background-color:#f18254;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+  border-bottom: solid 3px #bd6565;
 }
 
 /*ボタンサイズ*/
@@ -166,7 +192,23 @@ pre {
 
 .listItem{
   width:100%;
-  height:auto;
+  height:10vh;
 }
+
+/*検索ボックス*/
+.search-size{
+  width:100%;
+  height:8vh;
+  position:relative;
+  margin-bottom:1%;
+}
+
+/*コネクションダイアログ*/
+.connectionText{
+  font-size:3vh;
+  text-align:center;
+}
+
+
 
 

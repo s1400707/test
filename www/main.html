@@ -1,17 +1,18 @@
 <ons-page id="main-page" >
    
     <ons-toolbar class="toolbar">
-        <div class="center" >トップページ</div>
-        <div class="left">
-            <ons-toolbar-button onclick="fn.open()" >
-                <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
-            </ons-toolbar-button>
-        </div>
+      <div class="left">
+        <ons-toolbar-button onclick="fn.open()" >
+          <ons-icon icon="ion-share" ></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center" >トップページ</div>
     </ons-toolbar>
 
     <div class="header">
     <!-- <img src=""/>-->
     </div>
+    
 
     <!--カルーセル-->
     <ons-carousel swipeable overscrollable auto-scroll auto-scroll-ratio="0.0"  var="carousel" class="calBack" >
@@ -20,7 +21,13 @@
     
     <!--メニューボタン-->
         <div>
-            <ons-button onclick="fn.load('tab2.html')" class="btn">
+          <ons-button class="btn"></ons-button>
+          <ons-button class="btn"></ons-button>
+          <ons-button class="btn"></ons-button>
+          <ons-button class="btn"></ons-button>
+          <ons-button class="btn"></ons-button>
+          <ons-button class="btn"></ons-button>
+            <!-- <ons-button onclick="fn.load('map_tab.html')" class="btn">
                 <ons-icon icon="ion-android-map" size="100%"></ons-icon>
                 観光MAP
             </ons-button>
@@ -39,7 +46,7 @@
             <ons-button onclick="CheckMove('http://www.jma.go.jp/jp/week/312.html','気象庁ホームページ')" class="btn">
                 <ons-icon icon="ion-cloud" size="100%"></ons-icon>
                 天気
-            </ons-button>
+            </ons-button> -->
         </div>
 
 </ons-page>
