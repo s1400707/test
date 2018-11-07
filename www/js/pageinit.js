@@ -1,10 +1,11 @@
 var reader='';               //画像読み込み
-var c_objectId2='';       //詳細画面のobjectId
+//var c_objectId2='';       //詳細画面のobjectId
 var userid='';               //installationのobjectId
 var showCoupon='';     //ダイアログに表示するdetail保存
 var e_name='';           //イベント名
 var e_geo='';             //イベントの位置
-var c_geo='';              //クーポンの位置
+var c_geo='';              //クーポンの位置]
+var myCouponId='';
 
 //アプリ起動時、Coupon_Recordへクーポンの登録
 // document.addEventListener('deviceready',function() {
@@ -23,44 +24,45 @@ var c_geo='';              //クーポンの位置
         clearInterval(ncmbTimer);
         console.log("getid");
         userid=id;
-        var events = ncmb.DataStore(dbName);           //開始日、終了日以内のものを取得
-        events .lessThanOrEqualTo("startDate",today) 
-        .greaterThanOrEqualTo("endDate",today)
-        .fetchAll() 
-        .then(function(results){
-          for (var  i= 0; i< results.length; i++) {
-           (function() {            //即時間数
-              var result=results[i];
-              var myCoupon = ncmb.DataStore("Coupon_Record");  //データがあるか確認
-              var mycoupon=new myCoupon();
-              myCoupon.equalTo("deviceId",userid)
-              .equalTo("couponId",result.get("objectId"))
-              .count()
-              .fetchAll()
-              .then(function(results1){
-                if(results1.count==0){　　//データがないとき、登録
-                  mycoupon.set("deviceId",userid)
-                  .set("couponId",result.get("objectId"))
-                  .set("name",result.get("name"))
-                  .set("limit",result.get("limit"))
-                  .set("startDate",result.get("startDate"))
-                  .set("endDate",result.get("endDate"))
-                  .set("geo",result.get("geo"))
-                  .set("link",result.get("link"))
-                  .save()        
-                }                     
-             })
-             .catch(function(err){
-                console.log(err); // エラー処理
-              });  
-            })();  
-          } 
-        })
-        .catch(function(err){
-          console.log(err); // エラー処理
-        });   
-      }
-   });
+  //       var events = ncmb.DataStore(dbName);           //開始日、終了日以内のものを取得
+  //       events .lessThanOrEqualTo("startDate",today) 
+  //       .greaterThanOrEqualTo("endDate",today)
+  //       .fetchAll() 
+  //       .then(function(results){
+  //         for (var  i= 0; i< results.length; i++) {
+  //          (function() {            //即時間数
+  //             var result=results[i];
+  //             var myCoupon = ncmb.DataStore("Coupon_Record");  //データがあるか確認
+  //             var mycoupon=new myCoupon();
+  //             myCoupon.equalTo("deviceId",userid)
+  //             .equalTo("couponId",result.get("objectId"))
+  //             .count()
+  //             .fetchAll()
+  //             .then(function(results1){
+  //               if(results1.count==0){　　//データがないとき、登録
+  //                 mycoupon.set("deviceId",userid)
+  //                 .set("couponId",result.get("objectId"))
+  //                 .set("name",result.get("name"))
+  //                 .set("limit",result.get("limit"))
+  //                 .set("startDate",result.get("startDate"))
+  //                 .set("endDate",result.get("endDate"))
+  //                 .set("geo",result.get("geo"))
+  //                 .set("link",result.get("link"))
+  //                 .save()        
+  //               }                     
+  //            })
+  //            .catch(function(err){
+  //               console.log(err); // エラー処理
+  //             });  
+  //           })();  
+  //         } 
+  //       })
+  //       .catch(function(err){
+  //         console.log(err); // エラー処理
+  //       });   
+  //     }
+    }
+  })
   }, 5000);
    // modal.hide();
 }//, false );
@@ -95,25 +97,85 @@ document.addEventListener('init', function(event) {
       //情報ページ表示時の初期設定
     console.log(page.data.title);
 
-    //var infoLimit = document.getElementById("couponLimit");
+    //クーポンボタン
     var myCoupon = ncmb.DataStore("Coupon_Record");　          //データがあるか判別
     var c_limit='';
+
+    myCouponId=page.data.couponId;
     myCoupon.equalTo("deviceId",userid)
-    .equalTo("couponId",page.data.couponId)
+    .equalTo("couponId",myCouponId)
+    .count()
     .fetchAll()
-    .then(function(result){
-       c_limit=result[0].get("limit");
-       if(c_limit<=-1){
+    .then(function(result1){
+      if(result1.count==0){
+        var Coupon=ncmb.DataStore("Coupon_List");
+        Coupon.equalTo("objectId",myCouponId)
+        .fetchAll()
+        .then(function(result2){
+          c_limit=result2[0].get("limit");
+          console.log(c_limit);
+          //    var myCoupon = ncmb.DataStore("Coupon_Record");  //データがあるか確認
+          var mycoupon=new myCoupon();
+
+          mycoupon.set("deviceId",userid)
+          .set("couponId",result2[0].get("objectId"))
+          .set("name",result2[0].get("name"))
+          .set("limit",result2[0].get("limit"))
+          .set("startDate",result2[0].get("startDate"))
+          .set("endDate",result2[0].get("endDate"))
+          .set("geo",result2[0].get("geo"))
+          .set("link",result2[0].get("link"))
+          .save()        
+
+          //  var ncmbTimer = setInterval(function() {         //登録されるまで時間稼ぎ
+          // c_limit=result2[0].get("limit");
+          // if(c_limit!=''){
+          //   clearInterval(ncmbTimer);
+          // }
+          //  },5000);
+
+           if(c_limit<=-1){
          c_limit='無制限';
        }
-      
-      if(c_limit==0){
-          document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
-      }else{
-       document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog()" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
-      }
 
-    });
+      if(c_limit==0){
+        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      }else{
+        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      }
+        })
+       .catch(function(err){
+         console.log(err); // エラー処理
+       });  
+      
+      }else{
+       c_limit=result1[0].get("limit");
+
+        if(c_limit<=-1){
+         c_limit='無制限';
+       }
+
+      if(c_limit==0){
+        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      }else{
+        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      }
+      }
+console.log(c_limit);
+      //  if(c_limit<=-1){
+      //    c_limit='無制限';
+      //  }
+
+      // if(c_limit==0){
+      //   document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      // }else{
+      //   document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+      // }
+
+    })
+    .catch(function(err){
+      console.log(err); // エラー処理
+    });  
 
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -186,8 +248,8 @@ function displayList(dbName, listId){
   var  today=getDay();　//日付取得
   var c_objectId1=[]; //リスト表示時のCoupon_listのobjectId保存
   var c_name=[];      //クーポンの名前
+  var c_limit=[];       //クーポンの最大回数
   var value=0;          //クーポンの回数
-  var c_limit=[];       //取得したクーポン使用回数
   var items ='';         //取得したデータ
   var deadline='';      //開催期間格納
   var flag= document.createDocumentFragment();  //フラグメント
@@ -202,41 +264,40 @@ function displayList(dbName, listId){
     for (var  i= 0; i< results.length; i++) {
       (function() {                                          //即時関数
         var result=results[i];
-     
-        if(result.endDate=='2999/12/31' ){            //期間が決まっていない
-         deadline='';
-        }else{                                                      //決まっている
-          deadline=result.get("startDate")+'～'+result.get("endDate");
-        }
 
         switch(dbName){
           case "Coupon_List":                             //クーポンのとき
-            c_objectId1=result.get("objectId");      //クーポンのオブジェクトID保存
-            var myCoupon = ncmb.DataStore("Coupon_Record");　          //データがあるか判別
-            myCoupon.equalTo("deviceId",userid)
-              .equalTo("couponId",c_objectId1)
-              .notEqualTo("limit",0)
-              .fetchAll()
-              .then(function(results1){
+           // c_objectId1=result.get("objectId");      //クーポンのオブジェクトID保存
+            // var myCoupon = ncmb.DataStore("Coupon_Record");　          //データがあるか判別
+            // myCoupon.equalTo("deviceId",userid)
+            //   .equalTo("couponId",c_objectId1)
+            //  // .notEqualTo("limit",0)
+            //   .fetchAll()
+            //   .then(function(results1){
                
-                c_limit[i]=results1[0].get("limit");　　　　//クーポン回数取得
-                if(c_limit[i]<=-1){                                   //-1以下（無制限）のとき
-                  c_limit[i]='∞';
-                }
                 var  reader = new FileReader();  　　　　//ファイルの読み込み 
                 var img = ncmb.DataStore("Item_info");　
                 img.equalTo("objectId",result.get("link"))
                 .fetchAll() 
                 .then(function(results){    
                   var pic=results[0].get("img");        //画像取得
-        
                   loadNews(pic,reader) ;
                   reader.onload=function(e){         //取得終了
-                    dbName="Coupon_Record";
+                   c_limit[i]=result.get("limit");　　　　//クーポン回数取得
+                  if(c_limit[i]<=-1){                                   //-1以下（無制限）のとき
+                    c_limit[i]='無制限';
+                  }
+                  if(result.endDate=='2999/12/31' ){            //期間が決まっていない
+                    deadline='';
+                  }else{                                                      //決まっている
+                    deadline=result.get("startDate")+'～'+result.get("endDate");
+                   }
+
+                    //dbName="Coupon_Record";
                     items = document.createElement('ons-list-item');  //アイテム表示
                     items.className="listItem";
                     items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                    items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  残り'+c_limit[i]+' '+deadline+'</span></div>';
+                    items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  最大使用回数 : '+c_limit[i]+'　'+deadline+'</span></div>';
                     flag.appendChild(items);       
                     frame.appendChild(flag);
                   }
@@ -244,10 +305,10 @@ function displayList(dbName, listId){
                 .catch(function(err){  
                   console.log(err); // エラー処理
                 });  
-              })
-              .catch(function(err){
-                console.log(err);// エラー処理
-              });     
+              // })
+              // .catch(function(err){
+              //   console.log(err);// エラー処理
+              // });     
             break;
 
                //ニュース
@@ -259,7 +320,7 @@ function displayList(dbName, listId){
                 // var dataUrl = reader.result;
                 // document.getElementById("newsImg").src = dataUrl;
             
-              items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span><span class="list-item__title">'+deadline+'</span></div></ons-carousel-item>';                 
+              items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span></div></ons-carousel-item>';                 
               document.getElementById(listId).insertAdjacentHTML('beforeend', items);
              }
             break;
@@ -275,6 +336,11 @@ function displayList(dbName, listId){
                 loadNews(pic,reader) ;
     
                 reader.onload=function(e){
+                  if(result.endDate=='2999/12/31' ){            //期間が決まっていない
+                    deadline='';
+                  }else{                                                      //決まっている
+                    deadline=result.get("startDate")+'～'+result.get("endDate");
+                  }
                   items= document.createElement('ons-list-item');
                   items.className="listItem";
                   items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
@@ -303,6 +369,7 @@ function onClickItem(itemLink,dbName,objectId){
     switch(dbName){
       case "Coupon_List":
         showCoupon=results[0].get("detail");
+        c_geo=results[0].get("geo");
       break;
       case "Coupon_Record":
         showCoupon=results[0].get("detail");
@@ -327,15 +394,15 @@ function onClickInfo(title,detail,img,dbName,objectId){
   options.data.title = title;
   options.data.detail = detail;
   options.data.img = img;
-  options.data.couponId=objectId;
+  options.data.couponId=objectId; //クーポンボタン用
 
   switch(dbName){
     case "Coupon_List":
-      c_objectId2=objectId;
+     // c_objectId2=objectId;
       NatNavi.pushPage('coupon_info.html', options); 
     break;
     case "Coupon_Record":
-      c_objectId2=objectId;
+     // c_objectId2=objectId;
       NatNavi.pushPage('coupon_info.html', options);  
     break;
     case "Event_List":
@@ -373,15 +440,15 @@ function CheckMove(url,title) {
 }
 
 //クーポン使用okボタン押下
-function registerCoupon(){
+function registerCoupon(myCouponId){
    alert("画面を見せてください\n\n"+showCoupon);      
   var count=0;     //現在の回数
 
   var myCoupon = ncmb.DataStore("Coupon_Record");     //データがあるか判別
   myCoupon.equalTo("deviceId",userid)
-  .equalTo("couponId",c_objectId2)
+  .equalTo("couponId",myCouponId)
   .fetchAll()
-  .then(function(results){
+  .then(function(results){      
       count=results[0].get("limit");
       console.log(count);
       results[0].set("limit",count-1)
@@ -406,9 +473,9 @@ function getDay(){
 }
 
 //クーポン使用ダイアログ
-function couponDialog(){
+function couponDialog(myCouponId){
 	if(window.confirm('このクーポンを使いますか？')){
-		registerCoupon();
+		registerCoupon(myCouponId);
 	} else{
   	window.alert('キャンセルされました'); 
 	}
