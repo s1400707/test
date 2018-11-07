@@ -492,14 +492,14 @@ function showMap(dbName){
     NatNavi.popPage();
    // onClickTopBtn('map_tab.html');
     var countup = function(){
-      if(dbName=='Coupon_Record'){ //クーポン
+      if(dbName=='Coupon_List'){ //クーポン
         // var events = ncmb.DataStore(dbName);
         // events.equalTo("deviceId",userid)
         // .equalTo("couponId",c_objectId2)
         // .fetchAll() 
         // .then(function(result){
         //    var c_geo=result[0].get("geo");
-          find_couponpoint(checkDataStore);
+          find_geopoint(checkDataStore);
           eventmap(c_geo.longitude,c_geo.latitude);
       //  })
       }else{   //イベント

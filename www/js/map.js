@@ -229,7 +229,7 @@ function find_geopoint(checkDataStore){
   
                 for (var i = 0; i <= results.length; i++) {
                     var result = results[i];
-                    if(checkDataStore=="Event_List" && (result.get("mainEventName")!=result.get("name"))){
+                    if(checkDataStore=="Event_List" && (result.get("mainEventName")!=result.get("name"))){  //メイン会場を絞る
                       continue;
                     }
                     markers.push(new OpenLayers.Layer.Markers("Markers"));
@@ -246,8 +246,12 @@ function find_geopoint(checkDataStore){
                     );
                     
                     //マーカー名と詳細ボタンをポップアップで表示
-                    marker.tag = regist_name;
+                     marker.tag = regist_name;
+                    if(checkDataStore=="Coupon_List"){
+                       marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+')">詳しく</button></div>';
+                    }else{
                        marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"''"+')" >詳しく</button>';
+                    }
                     // マーカーをタップした際にポップアップを表示
                     marker.events.register("touchstart", marker, function(event) {
                      // すでに別なポップアップが開いていたら消す
@@ -329,66 +333,65 @@ function find_eventpoint(checkDataStore,e_name){
 };
 
 //登録されたポイントを引き出し地図上に表示する
-function find_couponpoint(checkDataStore){
-      var lonLat = map.getCenter().transform(projection900913,projection4326);
-    lonLat.lat = Math.round(lonLat.lat*1000000)/1000000;
-    lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
-      var  today=getDay();　//日付取得
-        var geoPoint = new ncmb.GeoPoint(lonLat.lat, lonLat.lon);
-        //console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
+// function find_couponpoint(checkDataStore){
+//       var lonLat = map.getCenter().transform(projection900913,projection4326);
+//     lonLat.lat = Math.round(lonLat.lat*1000000)/1000000;
+//     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
+//       var  today=getDay();　//日付取得
+//         var geoPoint = new ncmb.GeoPoint(lonLat.lat, lonLat.lon);
+//         //console.log("findpoints:"+lonLat.lat + ":" + lonLat.lon);
         
-        var PlacePointsClass = ncmb.DataStore(checkDataStore);
-        //ニフティクラウド mobile backendにアクセスして検索開始位置を指定
-        PlacePointsClass.withinKilometers("geo", geoPoint)
-            .lessThanOrEqualTo("startDate",today)
-            .greaterThanOrEqualTo("endDate",today)
-            .notEqualTo("limit",0)
-            .fetchAll()
-            .then(function(results){
-                var data = [];
-                if(results.length) {
-                    // すでに別なポップアップが開いていたら消します
-                    if (popup) map.removePopup(popup);
-                }
+//         var PlacePointsClass = ncmb.DataStore(checkDataStore);
+//         //ニフティクラウド mobile backendにアクセスして検索開始位置を指定
+//         PlacePointsClass.withinKilometers("geo", geoPoint)
+//             .lessThanOrEqualTo("startDate",today)
+//             .greaterThanOrEqualTo("endDate",today)
+//             .fetchAll()
+//             .then(function(results){
+//                 var data = [];
+//                 if(results.length) {
+//                     // すでに別なポップアップが開いていたら消します
+//                     if (popup) map.removePopup(popup);
+//                 }
   
-                for (var i = 0; i <= results.length; i++) {
-                    var result = results[i];
-                    markers.push(new OpenLayers.Layer.Markers("Markers"));
-                    map.addLayer(markers[markers.length-1]);
-                    var regist_location = result.get("geo");
-                    var regist_name = result.get("name");
-                    var iconsize = new OpenLayers.Size(32, 32);
-                    var point    = new OpenLayers.Pixel(-(iconsize.w/2), -iconsize.h);
-                    var icon = selectIcon(checkDataStore);
-                    var marker = new OpenLayers.Marker(
-                        new OpenLayers.LonLat(regist_location.longitude,regist_location.latitude)
-                                    .transform(projection4326,projection900913),
-                        new OpenLayers.Icon(icon, iconsize, point)
-                    );
+//                 for (var i = 0; i <= results.length; i++) {
+//                     var result = results[i];
+//                     markers.push(new OpenLayers.Layer.Markers("Markers"));
+//                     map.addLayer(markers[markers.length-1]);
+//                     var regist_location = result.get("geo");
+//                     var regist_name = result.get("name");
+//                     var iconsize = new OpenLayers.Size(32, 32);
+//                     var point    = new OpenLayers.Pixel(-(iconsize.w/2), -iconsize.h);
+//                     var icon = selectIcon(checkDataStore);
+//                     var marker = new OpenLayers.Marker(
+//                         new OpenLayers.LonLat(regist_location.longitude,regist_location.latitude)
+//                                     .transform(projection4326,projection900913),
+//                         new OpenLayers.Icon(icon, iconsize, point)
+//                     );
                     
-                    //マーカー名と詳細ボタンをポップアップで表示
-                    marker.tag = regist_name;
+//                     //マーカー名と詳細ボタンをポップアップで表示
+//                     marker.tag = regist_name;
                  
-                    marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("couponId")+"'"+')">詳しく</button></div>';
+//                     marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("couponId")+"'"+')">詳しく</button></div>';
                      
-                    // マーカーをタップした際にポップアップを表示
-                    marker.events.register("touchstart", marker, function(event) {
-                     // すでに別なポップアップが開いていたら消す
-                     if (popup) map.removePopup(popup);
-                     // ポップアップを作成
-                     popup = new OpenLayers.Popup("chicken",
-                     event.object.lonlat,
-                     new OpenLayers.Size(160,80),
-                     event.object.tag,
-                     true);
-                     // 作成したポップアップを地図に追加
-                     map.addPopup(popup);
-                     });
+//                     // マーカーをタップした際にポップアップを表示
+//                     marker.events.register("touchstart", marker, function(event) {
+//                      // すでに別なポップアップが開いていたら消す
+//                      if (popup) map.removePopup(popup);
+//                      // ポップアップを作成
+//                      popup = new OpenLayers.Popup("chicken",
+//                      event.object.lonlat,
+//                      new OpenLayers.Size(160,80),
+//                      event.object.tag,
+//                      true);
+//                      // 作成したポップアップを地図に追加
+//                      map.addPopup(popup);
+//                      });
     
-                    markers[markers.length-1].addMarker(marker);
-                }
-            });
-};
+//                     markers[markers.length-1].addMarker(marker);
+//                 }
+//             });
+// };
 
 function selectIcon(type) {
     //マーカータイプでアイコンを変更
@@ -396,7 +399,6 @@ function selectIcon(type) {
     switch(type){
         case '現在地':          icon = 'img/me.png'; break;
         case 'Event_List':    icon = 'img/marker_ibe32.png'; break;
-        //case 'Event_Map':    icon = 'img/marker_ibe32.png'; break;
         case 'Tourism_List':        icon = 'img/marker_kan32.png'; break;
         case 'Coupon_List':    icon = 'img/marker_cuu32.png'; break;
           case 'Coupon_Record':    icon = 'img/marker_cuu32.png'; break;
@@ -414,7 +416,7 @@ function Checkbox(){
   if(markers.length != 0){
     for(var i = 0; i < markers.length; i++) {
       map.removeLayer(markers[i]);
-      console.log("removeLayer");
+      //console.log("removeLayer");
     }
     markers = [];
   }
@@ -433,8 +435,8 @@ function Checkbox(){
                  find_geopoint(checkDataStore);
               break;
               case "クーポン":
-                checkDataStore='Coupon_Record';
-                 find_couponpoint(checkDataStore);
+                checkDataStore='Coupon_List';
+                 find_geopoint(checkDataStore);
               break;
               case "避難所":
                 checkDataStore='Shelter_List';
