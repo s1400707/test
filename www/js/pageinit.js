@@ -545,36 +545,50 @@ function searchInfo(dbName,listId){
         var j=i;
        var result=results[j];
         console.log(result.get("objectId"));
+
+          if(result.endDate=='2999/12/31' ){            //期間が決まっていない
+                    deadline='';
+                  }else{                                                      //決まっている
+                    deadline=result.get("startDate")+'～'+result.get("endDate");
+                   }
+
         if(dbName=="Coupon_List"){         //クーポンのとき
           //resultClass='';
-          var myCoupon = ncmb.DataStore("Coupon_Record");
+         // var myCoupon = ncmb.DataStore("Coupon_Record");
           c_objectId=result.get("objectId");
           //データがあるか判別
-          myCoupon.equalTo("deviceId",userid) 
-         .equalTo("couponId",c_objectId)
-         .notEqualTo("limit",0)
-         .fetchAll()
-         .then(function(result1){
-            c_limit=result1[0].get("limit");
-
+        //   myCoupon.equalTo("deviceId",userid) 
+        //  .equalTo("couponId",c_objectId)
+        //  .notEqualTo("limit",0)
+        //  .fetchAll()
+        //  .then(function(result1){
+        //    c_limit=result1[0].get("limit");
+            c_limit=result.get("limit");
             if(c_limit<=-1){
-              c_limit='∞';
+              c_limit='無制限';
             }   
-            dbName="Coupon_Record";
-            items= document.createElement('ons-list-item');
-            items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-            items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">残り'+c_limit+'</span></div>';
-            flag.appendChild(items);       
-            frame.appendChild(flag);        
-          })
-         .catch(function(err){
-           console.log(err); // エラー処理
-         });  
+          //  dbName="Coupon_Record";
+            // items= document.createElement('ons-list-item');
+            // items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
+            // items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">最大使用回数 : '+c_limit[i]+'　'+deadline+'</span></div>';
+            // flag.appendChild(items);       
+            // frame.appendChild(flag);  
+
+               items = document.createElement('ons-list-item');  //アイテム表示
+                    items.className="listItem";
+                    items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
+                    items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  最大使用回数 : '+c_limit+'　'+deadline+'</span></div>';
+                    flag.appendChild(items);       
+                    frame.appendChild(flag);      
+        //   })
+        //  .catch(function(err){
+        //    console.log(err); // エラー処理
+        //  });  
        }else{
           console.log("bbb");
           items= document.createElement('ons-list-item');
           items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-          items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span></div>';
+          items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+deadline+'</span></div>';
           flag.appendChild(items);       
           frame.appendChild(flag);
         }
