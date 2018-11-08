@@ -23,6 +23,11 @@ table.installationData td {
     overflow-x: auto;
 }
 
+/*文字の大きさ自動調節無効*/
+body{
+  -webkit-text-size-adjust: none;
+}
+
 /*ボタンサイズ*/
 .btn{
    display: inline-block;
