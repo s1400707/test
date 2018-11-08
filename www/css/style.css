@@ -113,11 +113,11 @@ table.installationData td {
 .detailImage{
   object-fit: contain;
   width: 100%;
-  background-color: #cfc;
+  /* background-color: #cfc;
   border: 1px solid #cff;
   display: block;
  margin-left: auto;
- margin-right: auto;
+ margin-right: auto; */
 }
 
 /*カルーセル画像*/

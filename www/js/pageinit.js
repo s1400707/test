@@ -43,7 +43,6 @@ document.addEventListener('init', function(event) {
     })
     
     document.getElementById("info-title").innerHTML = page.data.title;
-    //document.getElementById("info-img").src = page.data.img;
     document.getElementById("info-detail").innerHTML = page.data.detail;
     break;
     
@@ -73,10 +72,10 @@ document.addEventListener('init', function(event) {
           .set("couponId",result2[0].get("objectId"))
           .set("name",result2[0].get("name"))
           .set("limit",result2[0].get("limit"))
-          .set("startDate",result2[0].get("startDate"))
-          .set("endDate",result2[0].get("endDate"))
-          .set("geo",result2[0].get("geo"))
-          .set("link",result2[0].get("link"))
+          // .set("startDate",result2[0].get("startDate"))
+          // .set("endDate",result2[0].get("endDate"))
+          // .set("geo",result2[0].get("geo"))
+          // .set("link",result2[0].get("link"))
           .save()        
 
            if(c_limit<=-1){
@@ -224,7 +223,7 @@ function displayList(dbName, listId){
                 items = document.createElement('ons-list-item');  //アイテム表示
                 items.className="listItem";
                 items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  最大使用回数 : '+c_limit[i]+'　'+deadline+'</span></div>';
+                items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__subtitle" >  最大使用回数 : '+c_limit[i]+'　'+deadline+'</span></div>';
                 flag.appendChild(items);       
                 frame.appendChild(flag);
               }
@@ -267,7 +266,7 @@ function displayList(dbName, listId){
                   items= document.createElement('ons-list-item');
                   items.className="listItem";
                   items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                  items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+deadline+'</span></div>';
+                  items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__subtitle">'+deadline+'</span></div>';
                   flag.appendChild(items);       
                   frame.appendChild(flag);
                 }     
@@ -317,15 +316,17 @@ function onClickInfo(title,detail,img,dbName,objectId){
   options.data.title = title;
   options.data.detail = detail;
   options.data.img = img;
-  options.data.couponId=objectId; //クーポンボタン用
+  //options.data.couponId=objectId; //クーポンボタン用
 
   switch(dbName){
     case "Coupon_List":
      // c_objectId2=objectId;
+      options.data.couponId=objectId; //クーポンボタン用
       NatNavi.pushPage('coupon_info.html', options); 
     break;
     case "Coupon_Record":
      // c_objectId2=objectId;
+      options.data.couponId=objectId; //クーポンボタン用
       NatNavi.pushPage('coupon_info.html', options);  
     break;
     case "Event_List":
@@ -373,7 +374,7 @@ function registerCoupon(myCouponId){
   .fetchAll()
   .then(function(results){      
       count=results[0].get("limit");
-      console.log(count);
+     // console.log(count);
       results[0].set("limit",count-1)
       return results[0].update();
   })
@@ -478,7 +479,7 @@ function searchInfo(dbName,listId){
                items = document.createElement('ons-list-item');  //アイテム表示
                     items.className="listItem";
                     items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                    items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title" style="font-size:80%">  最大使用回数 : '+c_limit+'　'+deadline+'</span></div>';
+                    items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">  最大使用回数 : '+c_limit+'　'+deadline+'</span></div>';
                     flag.appendChild(items);       
                     frame.appendChild(flag);      
        }else{

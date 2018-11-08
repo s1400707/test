@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.snct.clab.natorist.test" version="1.0.0">
-  <name>なとりすとデバッガー</name>
+<widget xmlns="http://www.w3.org/ns/widgets" id="com.snct.clab.natorist" version="1.0.0">
+  <name>なとりすと</name>
   <description>Made with Monaca (http://monaca.mobi)</description>
   <author/>
   <content src="index.html"/>
@@ -106,9 +106,9 @@
   </edit-config>
   <access origin="*"/>
   <preference name="KeepRunning" value="true"/>
-  <preference name="monaca:AndroidIsPackageNameSeparate" value="false"/>
+  <preference name="monaca:AndroidIsPackageNameSeparate" value="true"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="Orientation" value="default"/>
+  <preference name="Orientation" value="portrait"/>
   <preference name="SplashScreenDelay" value="1000"/>
   <preference name="Fullscreen" value="false"/>
 </widget>
