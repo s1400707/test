@@ -13,6 +13,7 @@ var markers = []; //マーカーレイヤー
 var mode = 0;
 var markerUpdateTimer;
 var meMarker;
+var watchId=null;
 
 
 //OpenLayers.Control.Crosshairs のクラスを設定
@@ -80,7 +81,7 @@ function writemap(lon,lat) {
 }
 
 function startTracking(){
-    var watchId = navigator.geolocation.watchPosition( successWatch , onGeoError , geoOptions) ;
+     watchId = navigator.geolocation.watchPosition( successWatch , onGeoError , geoOptions) ;
 }
 
 geoOptions = {
@@ -107,13 +108,13 @@ function successWatch(position){
         meMarker = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(meMarker);
         meMarker.addMarker(marker);
-         var lonLat = new OpenLayers.LonLat( 140.883215,38.173054) 
-    .transform(
-            projection4326, 
-            projection900913
-        );
-   //console.log(lonLat+"aaa"); 
-    map.setCenter(lonLat,15);
+  //        var lonLat = new OpenLayers.LonLat( 140.883215,38.173054) 
+  //   .transform(
+  //           projection4326, 
+  //           projection900913
+  //       );
+  //  //console.log(lonLat+"aaa"); 
+  //   map.setCenter(lonLat,15);
     }
     
     if(mode == 2) {
@@ -400,7 +401,7 @@ function tracking() {
     switch(mode){
         case 0: //現在地を非表示
             mode = 1;  
-            tracking_mode.innerHTML = '名取';
+            tracking_mode.innerHTML = '現在地表示';
             startTracking();
             break; 
     
@@ -417,7 +418,7 @@ function tracking() {
               {frequency: 1000}
             );
             mode = 2;
-            tracking_mode.innerHTML = '現在地';
+            tracking_mode.innerHTML = '現在地中心表示';
             break;
             
         case 2: //現在地を中心に表示
@@ -425,7 +426,7 @@ function tracking() {
             mode = 0;
             $("#compass")
                   .css("transform", "rotate(0deg)");
-            tracking_mode.innerHTML = '自由';
+            tracking_mode.innerHTML = '現在地非表示';
             stopTracking();
             break;
     }
