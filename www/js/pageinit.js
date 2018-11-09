@@ -162,12 +162,12 @@ document.addEventListener('init', function(event) {
 
     case 'coupon-page':
       //クーポンページ
-      var listTimer = setInterval(function() { 
-      if(userid!=''){
-      clearInterval(listTimer);
+      // var listTimer = setInterval(function() { 
+      // if(userid!=''){
+      // clearInterval(listTimer);
       displayList("Coupon_List", "couponItems");
-      }
-      },3000);
+      // }
+      // },3000);
     break;
           
     case 'event-page':

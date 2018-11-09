@@ -362,7 +362,7 @@ function Checkbox(){
   }
    
   var checkDataStore = '';
-    for(var i=0; i<document.chbox.elements.length-1;i++){
+    for(var i=0; i<document.chbox.elements.length;i++){
         // i番目のチェックボックスがチェックされているかを判定
         if(document.chbox.elements[i].checked){
             switch(document.chbox.elements[i].value){
@@ -386,8 +386,9 @@ function Checkbox(){
                 checkDataStore='Food_List';
                  find_geopoint(checkDataStore);
               break;
-              case "お買い物":
+              case "ショップ":
                 checkDataStore='Shop_List';
+                console.log("shopW");
                  find_geopoint(checkDataStore);
               break;
             }
