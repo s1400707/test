@@ -49,7 +49,6 @@ document.addEventListener('init', function(event) {
     case 'coupon-info-page':
       //情報ページ表示時の初期設定
     console.log(page.data.title);
-
     //クーポンボタン
     var myCoupon = ncmb.DataStore("Coupon_Record");　          //データがあるか判別
     var c_limit='';
@@ -60,7 +59,7 @@ document.addEventListener('init', function(event) {
     .count()
     .fetchAll()
     .then(function(result1){
-      if(result1.count==0){
+      if(result1.count==0 || userid!=''){
         var Coupon=ncmb.DataStore("Coupon_List");
         Coupon.equalTo("objectId",myCouponId)
         .fetchAll()
@@ -82,7 +81,7 @@ document.addEventListener('init', function(event) {
          c_limit='∞';
        }
 
-      if(c_limit==0){
+      if(c_limit==0 || userid==''){
         document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
       }else{
         document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
@@ -99,7 +98,7 @@ document.addEventListener('init', function(event) {
          c_limit='∞';
        }
 
-      if(c_limit==0){
+      if(c_limit==0 || userid==''){
         document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
       }else{
         document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
@@ -162,12 +161,12 @@ document.addEventListener('init', function(event) {
 
     case 'coupon-page':
       //クーポンページ
-      var listTimer = setInterval(function() { 
-      if(userid!=''){
-      clearInterval(listTimer);
-      displayList("Coupon_List", "couponItems");
-      }
-      },3000);
+      // var listTimer = setInterval(function() { 
+      // if(userid!=''){
+      // clearInterval(listTimer);
+       displayList("Coupon_List", "couponItems");
+      // }
+      // },3000);
     break;
           
     case 'event-page':
