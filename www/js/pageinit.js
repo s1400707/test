@@ -79,11 +79,11 @@ document.addEventListener('init', function(event) {
           .save()        
 
            if(c_limit<=-1){
-         c_limit='無制限';
+         c_limit='∞';
        }
 
       if(c_limit==0){
-        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
       }else{
         document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
       }
@@ -96,13 +96,13 @@ document.addEventListener('init', function(event) {
        c_limit=result1[0].get("limit");
 
         if(c_limit<=-1){
-         c_limit='無制限';
+         c_limit='∞';
        }
 
       if(c_limit==0){
-        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
       }else{
-        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
       }
       }
 
