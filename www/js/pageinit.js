@@ -59,7 +59,7 @@ document.addEventListener('init', function(event) {
     .count()
     .fetchAll()
     .then(function(result1){
-      if(result1.count==0 || userid!=''){
+      if(result1.count==0 && userid!=''){
         var Coupon=ncmb.DataStore("Coupon_List");
         Coupon.equalTo("objectId",myCouponId)
         .fetchAll()
@@ -71,10 +71,6 @@ document.addEventListener('init', function(event) {
           .set("couponId",result2[0].get("objectId"))
           .set("name",result2[0].get("name"))
           .set("limit",result2[0].get("limit"))
-          // .set("startDate",result2[0].get("startDate"))
-          // .set("endDate",result2[0].get("endDate"))
-          // .set("geo",result2[0].get("geo"))
-          // .set("link",result2[0].get("link"))
           .save()        
 
            if(c_limit<=-1){
