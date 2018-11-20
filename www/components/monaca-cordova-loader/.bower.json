@@ -33,5 +33,6 @@
   },
   "_source": "https://github.com/monaca/monaca-component-cordova-loader.git",
   "_target": "1.0.3",
-  "_originalSource": "monaca-cordova-loader"
+  "_originalSource": "monaca-cordova-loader",
+  "_direct": true
 }

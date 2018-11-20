@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "998311343326",
+    "firebase_url": "https://natorist-push.firebaseio.com",
+    "project_id": "natorist-push",
+    "storage_bucket": "natorist-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998311343326:android:0e340b4e9128e8e2",
+        "android_client_info": {
+          "package_name": "com.snct.clab.natorist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998311343326-cqudtqukpm4d9n34d3d1qerkkl0i3agd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA1a81Cmd2xytNxcj3qoHEYIYlop3g7wU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

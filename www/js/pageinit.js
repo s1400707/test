@@ -78,9 +78,9 @@ document.addEventListener('init', function(event) {
        }
 
       if(c_limit==0 || userid==''){
-        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">使う<br>残り:'+c_limit+'</ons-button> '; 
       }else{
-        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り：'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">使う<br>残り：'+c_limit+'</ons-button> '; 
       }
         })
        .catch(function(err){
@@ -95,9 +95,9 @@ document.addEventListener('init', function(event) {
        }
 
       if(c_limit==0 || userid==''){
-        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button disabled class="btn" id="couponBtn">使う<br>残り:'+c_limit+'</ons-button> '; 
       }else{
-        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">残り:'+c_limit+'</ons-button> '; 
+        document.getElementById("couponBtn").innerHTML='<ons-button  onclick="couponDialog(myCouponId)" class="btn" id="couponBtn">使う<br>残り:'+c_limit+'</ons-button> '; 
       }
       }
 
@@ -157,12 +157,7 @@ document.addEventListener('init', function(event) {
 
     case 'coupon-page':
       //クーポンページ
-      // var listTimer = setInterval(function() { 
-      // if(userid!=''){
-      // clearInterval(listTimer);
        displayList("Coupon_List", "couponItems");
-      // }
-      // },3000);
     break;
           
     case 'event-page':
@@ -208,6 +203,8 @@ function displayList(dbName, listId){
                 c_limit[i]=result.get("limit");　　　　//クーポン回数取得
               if(c_limit[i]<=-1){                                   //-1以下（無制限）のとき
                 c_limit[i]='無制限';
+              }else{
+                c_limit[i]+=' 回まで';
               }
               if(result.endDate=='2999/12/31' ){            //期間が決まっていない
                 deadline='';
@@ -218,7 +215,7 @@ function displayList(dbName, listId){
                 items = document.createElement('ons-list-item');  //アイテム表示
                 items.className="listItem";
                 items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__subtitle" >  最大使用回数 : '+c_limit[i]+'　'+deadline+'</span></div>';
+                items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__subtitle" > '+c_limit[i]+'　'+deadline+'</span></div>';
                 flag.appendChild(items);       
                 frame.appendChild(flag);
               }
@@ -470,11 +467,13 @@ function searchInfo(dbName,listId){
             c_limit=result.get("limit");
             if(c_limit<=-1){
               c_limit='無制限';
-            }   
+            }else{
+              c_limit+='回まで';
+            }
                items = document.createElement('ons-list-item');  //アイテム表示
                     items.className="listItem";
                     items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                    items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">  最大使用回数 : '+c_limit+'　'+deadline+'</span></div>';
+                    items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+c_limit+'　'+deadline+'</span></div>';
                     flag.appendChild(items);       
                     frame.appendChild(flag);      
        }else{
