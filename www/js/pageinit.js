@@ -8,8 +8,6 @@ var myCouponId='';
 
 //アプリ起動時、Coupon_Recordへクーポンの登録
   function first_Register(){
-
-  console.log("coupon");
   var ncmbTimer = setInterval(function() {         //登録されるまで時間稼ぎ
     window.NCMB.monaca.getInstallationId(function(id) {  //デバイストークン取得
       if (id) {                                                                     //取得後
@@ -397,9 +395,9 @@ function couponDialog(myCouponId){
 	}
 }
 
-function couponLimit(){
-  console.log("aaa");
-}
+// function couponLimit(){
+//   console.log("aaa");
+// }
 
 //地図
 function showMap(dbName){
