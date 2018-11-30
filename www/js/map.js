@@ -230,9 +230,9 @@ function find_geopoint(checkDataStore){
   
                 for (var i = 0; i <= results.length; i++) {
                     var result = results[i];
-                    if(checkDataStore=="Event_List" && (result.get("mainEventName")!=result.get("name"))){  //メイン会場を絞る
-                      continue;
-                    }
+                    // if(checkDataStore=="Event_List" && (result.get("mainEventName")!=result.get("name"))){  //メイン会場を絞る
+                    //   continue;
+                    // }
                     markers.push(new OpenLayers.Layer.Markers("Markers"));
                     map.addLayer(markers[markers.length-1]);
                     var regist_location = result.get("geo");
@@ -273,7 +273,7 @@ function find_geopoint(checkDataStore){
 };
 
 //登録されたポイントを引き出し地図上に表示する
-function find_eventpoint(checkDataStore,e_name){
+function find_eventpoint(checkDataStore){
     var lonLat = map.getCenter().transform(projection900913,projection4326);
     lonLat.lat = Math.round(lonLat.lat*1000000)/1000000;
     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
@@ -286,7 +286,6 @@ function find_eventpoint(checkDataStore,e_name){
         PlacePointsClass.withinKilometers("geo", geoPoint)
             .lessThanOrEqualTo("startDate",today)
             .greaterThanOrEqualTo("endDate",today)
-            .equalTo("mainEventName",e_name)
             .fetchAll()
             .then(function(results){
                 var data = [];

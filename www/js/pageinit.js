@@ -2,6 +2,7 @@ var reader='';               //画像読み込み
 var userid='';               //installationのobjectId
 var showCoupon='';     //ダイアログに表示するdetail保存
 var e_name='';           //イベント名
+var e_class=''; 
 var e_geo='';             //イベントの位置
 var c_geo='';              //クーポンの位置]
 var myCouponId='';
@@ -238,7 +239,7 @@ function displayList(dbName, listId){
             break;
           
             case "Event_List":            //イベント
-              if(result.get("mainEventName")==result.get("name")){  //メインイベント絞込み
+              // if(result.get("mainEventName")==result.get("name")){  //メインイベント絞込み
               var  reader = new FileReader();  //ファイルの読み込み 
               var img = ncmb.DataStore("Item_info");
               img.equalTo("objectId",result.get("link"))
@@ -264,7 +265,7 @@ function displayList(dbName, listId){
               .catch(function(err){
                 console.log(err) ;// エラー処理
               });   
-              } 
+          //    } 
             break;
           }
         }) ();   
@@ -411,8 +412,15 @@ function showMap(dbName){
           eventmap(c_geo.longitude,c_geo.latitude);
       //  })
       }else{   //イベント
-        find_eventpoint(checkDataStore,e_name);
+        var events = ncmb.DataStore(checkDataStore);             //開始期間、終了期間と比較
+  events  .equalTo("name",e_name)
+  .fetchAll() 
+  .then(function(result){
+    e_class=result[0].get("classEvents");
+  console.log(e_class);
+        find_eventpoint(e_class);
         eventmap(e_geo.longitude,e_geo.latitude);
+         });
       }
     } 
     setTimeout(countup, 1000);
