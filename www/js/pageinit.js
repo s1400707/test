@@ -413,12 +413,11 @@ function showMap(dbName){
       //  })
       }else{   //イベント
         var events = ncmb.DataStore(checkDataStore);             //開始期間、終了期間と比較
-  events  .equalTo("name",e_name)
-  .fetchAll() 
-  .then(function(result){
-    e_class=result[0].get("classEvents");
-  console.log(e_class);
-        find_eventpoint(e_class);
+        events  .equalTo("name",e_name)
+        .fetchAll() 
+        .then(function(result){
+          e_class=result[0].get("classEvents");
+        find_geopoint(e_class);
         eventmap(e_geo.longitude,e_geo.latitude);
          });
       }
