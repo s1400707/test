@@ -181,7 +181,7 @@ function displayList(dbName, listId){
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .order("name")
-  .limit(40)
+  .limit(3)
   .fetchAll() 
   .then(function(results){
     for (var  i= 0; i< results.length; i++) {
@@ -214,7 +214,7 @@ function displayList(dbName, listId){
                 items = document.createElement('ons-list-item');  //アイテム表示
                 items.className="listItem1";
                 items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5><ons-row><ons-row><ons-col>'+c_limit[i]+'</ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
+                items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-row><hr><ons-row><ons-col>'+c_limit[i]+'</ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                 flag.appendChild(items);       
                 frame.appendChild(flag);
               }
@@ -230,16 +230,13 @@ function displayList(dbName, listId){
              var pic=result.get("thumbnail");
              loadNews(pic,reader);
              reader.onload= function(e){ //読み込み終了
-                // var dataUrl = reader.result;
-                // document.getElementById("newsImg").src = dataUrl;
-            
+
               items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span></div></ons-carousel-item>';                 
               document.getElementById(listId).insertAdjacentHTML('beforeend', items);
              }
             break;
           
             case "Event_List":            //イベント
-              // if(result.get("mainEventName")==result.get("name")){  //メインイベント絞込み
               var  reader = new FileReader();  //ファイルの読み込み 
               var img = ncmb.DataStore("Item_info");
               img.equalTo("objectId",result.get("link"))
@@ -257,7 +254,7 @@ function displayList(dbName, listId){
                   items= document.createElement('ons-list-item');
                   items.className="listItem1";
                   items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                  items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
+                  items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-col></ons-row><hr><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                   flag.appendChild(items);       
                   frame.appendChild(flag);
                 }     
@@ -265,7 +262,6 @@ function displayList(dbName, listId){
               .catch(function(err){
                 console.log(err) ;// エラー処理
               });   
-          //    } 
             break;
           }
         }) ();   
@@ -275,6 +271,9 @@ function displayList(dbName, listId){
 
 //リストアイテム
 function onClickItem(itemLink,dbName,objectId){  
+
+    showModal();  //くるくる
+
   var item = ncmb.DataStore("Item_info");
   item.equalTo("objectId",itemLink)
   .fetchAll() 
@@ -307,16 +306,13 @@ function onClickInfo(title,detail,img,dbName,objectId){
   options.data.title = title;
   options.data.detail = detail;
   options.data.img = img;
-  //options.data.couponId=objectId; //クーポンボタン用
 
   switch(dbName){
     case "Coupon_List":
-     // c_objectId2=objectId;
       options.data.couponId=objectId; //クーポンボタン用
       NatNavi.pushPage('coupon_info.html', options); 
     break;
     case "Coupon_Record":
-     // c_objectId2=objectId;
       options.data.couponId=objectId; //クーポンボタン用
       NatNavi.pushPage('coupon_info.html', options);  
     break;
@@ -365,14 +361,12 @@ function registerCoupon(myCouponId){
   .fetchAll()
   .then(function(results){      
       count=results[0].get("limit");
-     // console.log(count);
       results[0].set("limit",count-1)
       return results[0].update();
   })
   .catch(function(err){
     console.log(err); // エラー処理
   }); 
-  //displayList("Coupon_List", "couponItems");
   NatNavi.popPage();
 }
 
@@ -395,10 +389,6 @@ function couponDialog(myCouponId){
   	window.alert('キャンセルされました'); 
 	}
 }
-
-// function couponLimit(){
-//   console.log("aaa");
-// }
 
 //地図
 function showMap(dbName){
