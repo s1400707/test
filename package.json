@@ -14,7 +14,7 @@
         "cordova-plugin-geolocation": "4.0.1",
         "cordova-plugin-network-information": "2.0.1",
         "cordova-instagram-plugin": "file:plugins/cordova-instagram-plugin",
-        "ncmb-push-monaca-plugin": "3.0.1"
+        "ncmb-push-monaca-plugin": "3.0.2"
     },
     "cordova": {
         "plugins": {

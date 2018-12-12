@@ -181,7 +181,7 @@ function displayList(dbName, listId){
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .order("name")
-  .limit(6)
+  .limit(40)
   .fetchAll() 
   .then(function(results){
     for (var  i= 0; i< results.length; i++) {
@@ -212,9 +212,9 @@ function displayList(dbName, listId){
                 }
             
                 items = document.createElement('ons-list-item');  //アイテム表示
-                items.className="listItem";
+                items.className="listItem1";
                 items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__subtitle" > '+c_limit[i]+'　'+deadline+'</span></div>';
+                items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5><ons-row><ons-row><ons-col>'+c_limit[i]+'</ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                 flag.appendChild(items);       
                 frame.appendChild(flag);
               }
@@ -255,9 +255,9 @@ function displayList(dbName, listId){
                     deadline=result.get("startDate")+'～'+result.get("endDate");
                   }
                   items= document.createElement('ons-list-item');
-                  items.className="listItem";
+                  items.className="listItem1";
                   items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                  items.innerHTML='<div class="left"><img class="list-item__thumbnail" src ="'+reader.result+'" /></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__subtitle">'+deadline+'</span></div>';
+                  items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                   flag.appendChild(items);       
                   frame.appendChild(flag);
                 }     
@@ -437,7 +437,7 @@ function searchInfo(dbName,listId){
   var  today=getDay(); //日付取得
   var flag= document.createDocumentFragment();
   var frame= document.getElementById(listId);
- console.log("aaa");
+
   if(listId=="searchCouponItems"){      //クーポン
     searchName=couponSearch.value;
   }else{                                                   //イベント
@@ -476,11 +476,11 @@ function searchInfo(dbName,listId){
               c_limit+='回まで';
             }
                items = document.createElement('ons-list-item');  //アイテム表示
-                    items.className="listItem";
-                    items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
-                    items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+c_limit+'　'+deadline+'</span></div>';
-                    flag.appendChild(items);       
-                    frame.appendChild(flag);      
+              items.className="listItem2";
+              items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
+              items.innerHTML='<div class="left"><ons-icon icon="search"></ons-icon></div><div class="center"><span class="list-item__title">'+result.get("name")+'</span><span class="list-item__title">'+c_limit+'　'+deadline+'</span></div>';
+              flag.appendChild(items);       
+              frame.appendChild(flag);      
        }else{
           items= document.createElement('ons-list-item');
           items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
