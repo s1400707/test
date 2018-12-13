@@ -152,6 +152,7 @@ document.addEventListener('init', function(event) {
     case 'main-page':
       //メインページ
       displayList("News_List", "newsItems");
+      
     break; 
 
     case 'coupon-page':
@@ -181,7 +182,7 @@ function displayList(dbName, listId){
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
   .order("name")
-  .limit(3)
+  .limit(6)
   .fetchAll() 
   .then(function(results){
     for (var  i= 0; i< results.length; i++) {
@@ -272,7 +273,7 @@ function displayList(dbName, listId){
 //リストアイテム
 function onClickItem(itemLink,dbName,objectId){  
 
-    showModal();  //くるくる
+    showModal(0);  //くるくる
 
   var item = ncmb.DataStore("Item_info");
   item.equalTo("objectId",itemLink)
@@ -293,6 +294,7 @@ function onClickItem(itemLink,dbName,objectId){
       break;
     }
     onClickInfo(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId);
+    showModal(1);  //くるくる
   })
   .catch(function(err){
     console.log("error"); // エラー処理
@@ -306,7 +308,7 @@ function onClickInfo(title,detail,img,dbName,objectId){
   options.data.title = title;
   options.data.detail = detail;
   options.data.img = img;
-
+    
   switch(dbName){
     case "Coupon_List":
       options.data.couponId=objectId; //クーポンボタン用

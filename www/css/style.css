@@ -67,6 +67,16 @@ body{
     font-size: 3vh;
     box-shadow: 2px 2px 3px 0 #333;
     border-bottom: solid 3px #bd6565;
+    position:relative;
+}
+
+/*カルーセル画像*/
+.calImage{
+ object-fit: cover;
+  width: 100%;
+ height: 75%; 
+   text-align: center;
+   display: block;
 }
 
 /*マップ*/
@@ -120,47 +130,34 @@ body{
 .detailImage{
   object-fit: contain;
   width: 100%;
-  /* background-color: #cfc;
-  border: 1px solid #cff;
-  display: block;
- margin-left: auto;
- margin-right: auto; */
-}
-
-/*カルーセル画像*/
-.calImage{
- object-fit: cover;
-  width: 100%;
- height: 75%; 
-   text-align: center;
-   display: block;
 }
 
 /* マーカーチェックボックス */
 input[type=checkbox] {
 	display: none;
+  text-align: center;
 }
 input[type="checkbox"].checkbox02:checked + label {
-	background: #31A9EE;
+	background: #f18254;
 	color: #ffffff;
 }
 .check_label:hover {
-	background-color: #E2EDF9;
+	background-color: #ffffff;
 }
 
 .check_label {
-display: block;
+ display: block;
 	float: left;
-	margin: 2%;
-	width: 40%;
+	margin: 2px;
+	width: 45%;
 	height: 8vh;
 	text-align: center;
 	line-height: 8vh;
 	padding-left: 1%;
 	padding-right: 1%;
 	cursor: pointer;
-	color: #31A9EE;
-	border: 1px solid #006DD9;
+	color: #f18254;
+	border: 1px solid #f18254;
 } 
 
 
@@ -197,17 +194,27 @@ pre {
   height:40vh;
 }
 
+/*ons-list*/
+.list{
+  width:100%;
+  height:auto;
+  margin-bottom:5vh;
+  position:static;
+}
+
 .listItem1{
   width:100%;
   height:auto;
   /* padding: 1px 1px; */
-  margin:1px 1px;
+  margin:1px;
   border: solid 4px #f18254;
+  position:relative;
 }
 
 .listItem2{
   width:100%;
   height:auto;
+  position:relative;
 }
 
 .listImage{
@@ -219,20 +226,20 @@ pre {
   border: 1px dotted;
 }
 
-
-
 /*検索ボックス*/
 .search-size{
   width:100%;
   height:10vw;
+  margin:1px;
   position:relative;
-  margin-bottom:1%;
 }
 
 .inline {
     display: inline-block;
 }
 
-
-
+.popover{
+ width:50%;
+ height:auto;
+}
 

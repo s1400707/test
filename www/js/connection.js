@@ -25,10 +25,14 @@ document.addEventListener("offline", onOffline, false);
 
 
 
-function showModal() {
+function showModal(clickFlg) {
   var modal = document.querySelector('ons-modal');
-  modal.show();
-  setTimeout(function() {
+  if(clickFlg==0){
+    modal.show();
+  }else{
     modal.hide();
-  }, 1000);
+  }
+  // setTimeout(function() {
+  //   modal.hide();
+  // }, 1000);
 }

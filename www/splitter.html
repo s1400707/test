@@ -14,7 +14,15 @@
         </ons-list>
        </ons-page>
     </ons-splitter-side>
-     
-        <ons-splitter-content id="content" page="main_tab.html"></ons-splitter-content>
+
+      <ons-modal direction="up">
+        <div style="text-align: center">
+          <p>
+             <ons-icon icon="md-spinner" size="28px" spin></ons-icon> 取得中...
+          </p>
+        </div>
+      </ons-modal>
+      <ons-splitter-content id="content" page="main_tab.html"></ons-splitter-content>
+
     </ons-splitter>
 </ons-page>
