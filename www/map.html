@@ -2,14 +2,15 @@
 
     <ons-toolbar class="toolbar">
         <div class="center">マップ</div>
-       <div class="left">
+       <div class="right">
+         <ons-toolbar-button onclick="showDialog()"><ons-icon icon="ion-search" class="toolbarBtn"></ons-icon></ons-toolbar-button>
         <ons-toolbar-button onclick="fn.open()" >
           <ons-icon icon="md-share" class="toolbarBtn"></ons-icon>
         </ons-toolbar-button>
       </div>
-        <div class="right" >
+        <!-- <div class="right" >
           <ons-toolbar-button onclick="showDialog()"><ons-icon icon="ion-search" class="toolbarBtn"></ons-icon></ons-toolbar-button>
-        </div>      
+        </div>       -->
     </ons-toolbar>    
   
   <!--地図表示部-->
@@ -19,5 +20,6 @@
       <div  id="tracking_mode">現在地非表示</div>
       <ons-button id="tracking_btn"  onclick ="tracking()" class="mapBtn">表示切替</ons-button>
     </div>
+    <div></div>
 
 </ons-page> 

@@ -1,7 +1,7 @@
 <ons-page id="main-page" >
    
     <ons-toolbar class="toolbar">
-      <div class="left">
+      <div class="right">
         <ons-toolbar-button onclick="fn.open()" >
           <ons-icon icon="md-share" class="toolbarBtn"></ons-icon>
         </ons-toolbar-button>
@@ -21,8 +21,27 @@
     
     <!--メニューボタン-->
     <div class="center">
-      <ons-card>
-      </ons-card>
+     <ons-button onclick="onClickTopBtn('tourism.html')" class="mainBtn">
+                <!-- <ons-icon icon="ion-android-map" size="100%"></ons-icon> -->
+                観光
+            </ons-button>
+            <ons-button onclick="onClickTopBtn('food.html')" class="mainBtn">
+                <!-- <ons-icon icon="ion-ios-pricetags" size="100%"></ons-icon> -->
+                グルメ
+            </ons-button>
+            <ons-button onclick="onClickTopBtn('shopping.html')" class="mainBtn">
+                <!-- <ons-icon icon="fa-calendar-o" size="100%"></ons-icon> -->
+                お買い物    
+            </ons-button>
+            <ons-button class="mainBtn">
+                <!-- <ons-icon icon="ion-android-subway" size="100%"></ons-icon>
+                アクセス -->
+            </ons-button>
+            <ons-button  class="mainBtn">
+                <!-- <ons-icon icon="ion-cloud" size="100%"></ons-icon>
+                天気 -->
+  　　    </ons-button> 
+              <ons-button  class="mainBtn"></ons-button>
     
     </div>
   

@@ -164,6 +164,21 @@ document.addEventListener('init', function(event) {
       //イベントページ
       displayList("Event_List", "eventItems");
     break;
+
+    case 'tourism-page':
+      //イベントページ
+      displayList("Tourism_List", "tourismItems");
+    break;
+
+    case 'shop-page':
+      //イベントページ
+      displayList("Shop_List", "shopItems");
+    break;
+
+    case 'food-page':
+      //イベントページ
+      displayList("Food_List", "foodItems");
+    break;
   }
 });
 
@@ -179,9 +194,12 @@ function displayList(dbName, listId){
   var flag= document.createDocumentFragment();  //フラグメント
   var frame= document.getElementById(listId);      
   var events = ncmb.DataStore(dbName);             //開始期間、終了期間と比較
+  var img=ncmb.DataStore("Item_info");
+  var pic;
+
   events .lessThanOrEqualTo("startDate",today)
   .greaterThanOrEqualTo("endDate",today)
-  .order("name")
+  .order("endDate")
   .limit(6)
   .fetchAll() 
   .then(function(results){
@@ -192,11 +210,11 @@ function displayList(dbName, listId){
         switch(dbName){
           case "Coupon_List":                             //クーポンのとき
             var  reader = new FileReader();  　　　　//ファイルの読み込み 
-            var img = ncmb.DataStore("Item_info");　
+           // img = ncmb.DataStore("Item_info");　
             img.equalTo("objectId",result.get("link"))
             .fetchAll() 
             .then(function(results){    
-              var pic=results[0].get("img");        //画像取得
+              pic=results[0].get("img");        //画像取得
               loadNews(pic,reader) ;
              // console.log(pic);
               reader.onload=function(e){         //取得終了
@@ -228,7 +246,7 @@ function displayList(dbName, listId){
                //ニュース
            case "News_List":
              var  reader = new FileReader();  //ファイルの読み込み 
-             var pic=result.get("thumbnail");
+              pic=result.get("thumbnail");
              loadNews(pic,reader);
              reader.onload= function(e){ //読み込み終了
 
@@ -237,13 +255,13 @@ function displayList(dbName, listId){
              }
             break;
           
-            case "Event_List":            //イベント
+            default:            //イベント
               var  reader = new FileReader();  //ファイルの読み込み 
-              var img = ncmb.DataStore("Item_info");
+             // img = ncmb.DataStore("Item_info");
               img.equalTo("objectId",result.get("link"))
               .fetchAll() 
               .then(function(results){
-                var pic=results[0].get("img"); 
+                 pic=results[0].get("img"); 
                 loadNews(pic,reader) ;
     
                 reader.onload=function(e){
@@ -288,7 +306,7 @@ function onClickItem(itemLink,dbName,objectId){
         showCoupon=results[0].get("detail");
         c_geo=results[0].get("geo");
       break;
-      case "Event_List":
+      default:
         e_name=results[0].get("name");
         e_geo=results[0].get("geo");
       break;
@@ -322,7 +340,7 @@ function onClickInfo(title,detail,img,dbName,objectId){
       NatNavi.pushPage('event_info.html', options);
     break;
     default:
-      NatNavi.pushPage('info.html', options);
+      NatNavi.pushPage('event_info.html', options);
     break;
   }
 }
