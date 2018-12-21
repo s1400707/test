@@ -3,19 +3,19 @@
     <ons-toolbar class="toolbar">
         <div class="center">観光一覧</div>
         <div class="right">
-        <ons-toolbar-button onclick="fn.open()" >
-          <ons-icon  icon="md-share" class="toolbarBtn"></ons-icon>
-        </ons-toolbar-button>
-      </div>
-      <div class="left">
-        <ons-back-button>戻る</ons-back-button>
-      </div>
+            <ons-toolbar-button onclick="fn.open()" >
+                <ons-icon  icon="md-share" class="toolbarBtn"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="left">
+            <ons-back-button>戻る</ons-back-button>
+        </div>
     </ons-toolbar>
    
-  <div>
-    <input   id="tourismSearch" name="search" placeholder="キーワードを入力" class="search-input search-size"   onchange="searchInfo('Tourism_List','searchTourismItems')" maxlength="20" autocomplete="on">
-    <ons-list  id="searchTourismItems" style="background-color:#E6E6E6;"></ons-list>
-  </div>
+    <div>
+        <input   id="tourismSearch" name="search" placeholder="キーワードを入力" class="search-input search-size"   onchange="searchInfo('Tourism_List','searchTourismItems')" maxlength="20" autocomplete="on">
+        <ons-list  id="searchTourismItems" style="background-color:#E6E6E6;"></ons-list>
+    </div>
 
     <ons-list id="tourismItems" class="list"></ons-list>
 </ons-page> 

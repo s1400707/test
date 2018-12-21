@@ -1,30 +1,31 @@
 <!--メニューバー -->
 <ons-page>
     <ons-splitter>
-    <ons-splitter-side id="menu" side="right" width="45%" collapse >
-       <ons-page>
-        <ons-list>
-          <ons-list-header>ページ</ons-list-header>
-            <ons-list-item modifier="chevron" onclick="fn.load('main_tab.html')">トップページ</ons-list-item>
-          <ons-list-header >外部サイト</ons-list-header>
-            <ons-list-item modifier="chevron" onclick="CheckMove('http://www.city.natori.miyagi.jp/bunya/introduction/access','名取市ホームページ')">アクセス</ons-list-item>
-            <ons-list-item modifier="chevron" onclick="CheckMove('http://www.jma.go.jp/jp/week/312.html','気象庁ホームページ')">お天気</ons-list-item>
-          <ons-list-header>SNS</ons-list-header>
-            <ons-list-item modifier="chevron" onclick="twitText();" label="twitter" >Twitter</ons-list-item>
-            <ons-list-item modifier="chevron"   onclick="lineText();" label="Line" >LINE</ons-list-item>
-            <ons-list-item modifier="chevron" onclick="getPhoto();" label="Instagram" >Instagram</ons-list-item>
-        </ons-list>
-       </ons-page>
-    </ons-splitter-side>
+        <ons-splitter-side id="menu" side="right" width="45%" collapse >
+        <ons-page>
+                <ons-list>
+                    <ons-list-header>ページ</ons-list-header>
+                    <ons-list-item modifier="chevron" onclick="fn.load('main_tab.html')">トップページ</ons-list-item>
+                    <ons-list-header >外部サイト</ons-list-header>
+                    <ons-list-item modifier="chevron" onclick="CheckMove('http://www.kankou.natori.miyagi.jp/','名取市観光物産協会ホームページ')">公式サイト</ons-list-item>
+                    <ons-list-item modifier="chevron" onclick="CheckMove('http://www.city.natori.miyagi.jp/bunya/introduction/access','名取市ホームページ')">アクセス</ons-list-item>
+                    <ons-list-item modifier="chevron" onclick="CheckMove('http://www.jma.go.jp/jp/week/312.html','気象庁ホームページ')">お天気</ons-list-item>
+                    <ons-list-header>SNS</ons-list-header>
+                    <ons-list-item modifier="chevron" onclick="twitText();" label="twitter" >Twitter</ons-list-item>
+                    <ons-list-item modifier="chevron"   onclick="lineText();" label="Line" >LINE</ons-list-item>
+                    <ons-list-item modifier="chevron" onclick="getPhoto();" label="Instagram" >Instagram</ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-splitter-side>
 
-      <ons-modal direction="up">
-        <div style="text-align: center">
-          <p>
-             <ons-icon icon="md-spinner" size="28px" spin></ons-icon> 取得中...
-          </p>
-        </div>
-      </ons-modal>
-      <ons-splitter-content id="content" page="main_tab.html"></ons-splitter-content>
+        <ons-modal direction="up">
+            <div style="text-align: center">
+                <p>
+                    <ons-icon icon="md-spinner" size="28px" spin></ons-icon> 取得中...
+                </p>
+            </div>
+        </ons-modal>
+        <ons-splitter-content id="content" page="main_tab.html"></ons-splitter-content>
 
     </ons-splitter>
 </ons-page>

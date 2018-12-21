@@ -3,16 +3,16 @@
     <ons-toolbar class="toolbar">
         <div class="center">イベント一覧</div>
         <div class="right">
-        <ons-toolbar-button onclick="fn.open()" >
-          <ons-icon  icon="md-share" class="toolbarBtn"></ons-icon>
-        </ons-toolbar-button>
-      </div>
+            <ons-toolbar-button onclick="fn.open()" >
+                <ons-icon  icon="md-share" class="toolbarBtn"></ons-icon>
+            </ons-toolbar-button>
+            </div>
     </ons-toolbar>
    
-  <div>
-    <input   id="eventSearch" name="search" placeholder="キーワードを入力" class="search-input search-size"   onchange="searchInfo('Event_List','searchEventItems')" maxlength="20" autocomplete="on">
-    <ons-list  id="searchEventItems" style="background-color:#E6E6E6;"></ons-list>
-  </div>
+     <div>
+        <input   id="eventSearch" name="search" placeholder="キーワードを入力" class="search-input search-size"   onchange="searchInfo('Event_List','searchEventItems')" maxlength="20" autocomplete="on">
+        <ons-list  id="searchEventItems" style="background-color:#E6E6E6;"></ons-list>
+    </div>
 
     <ons-list id="eventItems" class="list"></ons-list>
 </ons-page> 

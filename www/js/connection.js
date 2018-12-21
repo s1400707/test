@@ -7,16 +7,16 @@ var onOnline = function () {
     var modal = document.querySelector('ons-modal');
     online = true;
     if(flag==1){
-      modal.hide();
+        modal.hide();
         flag=0;
-      }
+    }
 }
-var onOffline = function () {
-//    alert("データが取得できません。接続状況を確認してください。");
 
- var modal = document.querySelector('ons-modal');
+var onOffline = function () {
+
+    var modal = document.querySelector('ons-modal');
     flag=1;
-  modal.show();
+    modal.show();
     online = false;
 }
 
@@ -26,13 +26,10 @@ document.addEventListener("offline", onOffline, false);
 
 
 function showModal(clickFlg) {
-  var modal = document.querySelector('ons-modal');
-  if(clickFlg==0){
-    modal.show();
-  }else{
-    modal.hide();
-  }
-  // setTimeout(function() {
-  //   modal.hide();
-  // }, 1000);
+    var modal = document.querySelector('ons-modal');
+    if(clickFlg==0){
+        modal.show();
+    }else{
+        modal.hide();
+    }
 }
