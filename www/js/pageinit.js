@@ -120,11 +120,12 @@ document.addEventListener('init', function(event) {
 
             document.getElementById("info-title").innerHTML = page.data.title;
             document.getElementById("info-detail").innerHTML = page.data.detail;
+            document.getElementById("info-dbName").innerHTML =  '<ons-button  onclick="showMap('+"'"+page.data.dbName+"'"+')" class="btn"><p>地図</p></ons-button>';
         break;
 
         case 'event-info-page':
             //情報ページ表示時の初期設定
-            console.log(page.data.title);
+            console.log(page.data.dbName);
 
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -141,6 +142,7 @@ document.addEventListener('init', function(event) {
 
             document.getElementById("info-title").innerHTML = page.data.title;
             document.getElementById("info-detail").innerHTML = page.data.detail;
+            document.getElementById("info-dbName").innerHTML =  '<ons-button  onclick="showMap('+"'"+page.data.dbName+"'"+')" class="btn"><p>地図</p></ons-button>';
         break;
 
         case 'map-page':
@@ -322,7 +324,8 @@ function onClickInfo(title,detail,img,dbName,objectId){
     options.animation = 'slide';
     options.data.title = title;
     options.data.detail = detail;
-    options.data.img = img;
+    options.data.img = img
+    options.data.dbName=dbName;
 
     switch(dbName){
         case "Coupon_List":
@@ -334,6 +337,18 @@ function onClickInfo(title,detail,img,dbName,objectId){
             NatNavi.pushPage('coupon_info.html', options);  
         break;
         case "Event_List":
+            NatNavi.pushPage('event_info.html', options);
+        break;
+        case "Tourism_List":
+            NatNavi.pushPage('event_info.html', options);
+        break;
+        case "Shop_List":
+            NatNavi.pushPage('event_info.html', options);
+        break;
+        case "Food_List":
+            NatNavi.pushPage('event_info.html', options);
+        break;
+        case "News_List":
             NatNavi.pushPage('event_info.html', options);
         break;
         default:
@@ -412,20 +427,28 @@ function showMap(dbName){
     if(window.confirm('地図に目的地を表示します')){
         checkDataStore=dbName;
         NatNavi.popPage();
-
         var countup = function(){
-            if(dbName=='Coupon_List'){ //クーポン
-                find_geopoint(checkDataStore);
-                eventmap(c_geo.longitude,c_geo.latitude);
-            }else{   //イベント
-                var events = ncmb.DataStore(checkDataStore);             //開始期間、終了期間と比較
-                events .equalTo("name",e_name)
-                .fetchAll() 
-                .then(function(result){
-                    e_class=result[0].get("classEvents");
-                    find_geopoint(e_class);
+            switch(dbName){
+                case "Coupon_List":
+                    find_geopoint(checkDataStore);
+                    eventmap(c_geo.longitude,c_geo.latitude);
+                break;
+                case "Event_List":
+                    var events = ncmb.DataStore(checkDataStore);      
+                    events .equalTo("name",e_name)
+                    .fetchAll() 
+                    .then(function(result){
+                        e_class=result[0].get("classEvents");
+                        find_geopoint(e_class);
+                        eventmap(e_geo.longitude,e_geo.latitude);
+                    });
+                break;
+                default:
+                    //geo等optionで取得 
+                    /* eventmap(geo.longitude,geo.latitude);*/
+                    find_geopoint(checkDataStore);
                     eventmap(e_geo.longitude,e_geo.latitude);
-                });
+                break;
             }
         } 
         setTimeout(countup, 1000);
@@ -444,7 +467,7 @@ function searchInfo(dbName,listId){
     var flag= document.createDocumentFragment();
     var frame= document.getElementById(listId);
 
-    
+
     switch(listId){
         case "searchCoupontems":
             searchName=couponSearch.value;

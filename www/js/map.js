@@ -201,6 +201,7 @@ function onCurrentSuccess(position){
 
 //登録されたポイントを引き出し地図上に表示する
 function find_geopoint(checkDataStore){
+    console.log(checkDataStore);
     var lonLat = map.getCenter().transform(projection900913,projection4326);
     lonLat.lat = Math.round(lonLat.lat*1000000)/1000000;
     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
