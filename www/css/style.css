@@ -40,9 +40,7 @@ body{
     overflow: hidden;  
     margin:1px 1px;
     padding:2px;
-    background-color:#f18254;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
-    border-bottom: solid 3px #bd6565;
+    background: url('../img/natori.jpg');
 }
 
 .mainBtn{
@@ -60,9 +58,10 @@ body{
     margin-left:1vw;
     margin-right:1vw;
     margin-bottom:1vh;
-    background-color:#f18254;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
-    border-bottom: solid 3px #bd6565;
+   /* background-color:#f18254;*/
+    /* box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+    border-bottom: solid 3px #bd6565; */
+    background: url('../img/natori.jpg');
 }
 
 /*ツールバー*/
@@ -81,13 +80,18 @@ body{
 .cal{
     height: 35vh;
     width: 100%;
-    text-align: center;
     border: solid 4px #f18254;
     background-color:#FFF;
-    font-size: 3vh;
     box-shadow: 2px 2px 3px 0 #333;
     border-bottom: solid 3px #bd6565;
-    position:relative;
+    position: relative;
+}
+
+.calText{
+    position: absolute;
+    bottom:0;
+    text-align: center;
+    font-size: 3vh;
 }
 
 /*カルーセル背景*/
@@ -132,9 +136,7 @@ body{
     border-radius: 10%;
     vertical-align: middle;
     overflow: hidden;  
-    background-color:#f18254;
-    box-shadow: 2px 2px 3px 0 #333;
-    border-bottom: solid 3px #bd6565;
+    background: url('../img/natori.jpg');
 }
 
 /*ボタンサイズ*/

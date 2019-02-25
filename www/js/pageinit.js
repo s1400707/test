@@ -199,10 +199,10 @@ function displayList(dbName, listId){
     var img=ncmb.DataStore("Item_info");
     var pic;
 
-    events .lessThanOrEqualTo("startDate",today)
+    events.lessThanOrEqualTo("startDate",today)
     .greaterThanOrEqualTo("endDate",today)
     .order("endDate")
-    .limit(6)
+    //.limit(6)
     .fetchAll() 
     .then(function(results){
         for (var  i= 0; i< results.length; i++) {
@@ -224,15 +224,16 @@ function displayList(dbName, listId){
                                 }else{
                                     c_limit[i]+=' 回まで';
                                 }
-                                if(result.endDate=='2999/12/31' ){            //期間が決まっていない
+                                if(result.get('endDate')=='2999/12/31' ){            //期間が決まっていない
                                     deadline='';
                                 }else{                                                      //決まっている
                                     deadline=result.get("startDate")+'～'+result.get("endDate");
+                                    console.log(deadline);
                                 }
 
                                 items = document.createElement('ons-list-item');  //アイテム表示
                                 items.className="listItem1";
-                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
+                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"),"main");}; 
                                 items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-row><hr><ons-row><ons-col>'+c_limit[i]+'</ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                                 flag.appendChild(items);       
                                 frame.appendChild(flag);
@@ -249,8 +250,7 @@ function displayList(dbName, listId){
                         pic=result.get("thumbnail");
                         loadNews(pic,reader);
                         reader.onload= function(e){ //読み込み終了
-
-                            items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src="'+reader.result+'" class="calImage" /><div class="center"><span class="list-item__title"><H7>'+result.get("name")+'</H7></span></div></ons-carousel-item>';                 
+                            items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+','+"'main'"+')"  class="cal"><img src="'+reader.result+'" class="calImage"/><H7 class="calText">'+result.get("name")+'</H7></ons-carousel-item>';                 
                             document.getElementById(listId).insertAdjacentHTML('beforeend', items);
                         }
                     break;
@@ -271,7 +271,7 @@ function displayList(dbName, listId){
                                 }
                                 items= document.createElement('ons-list-item');
                                 items.className="listItem1";
-                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
+                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"),"main");}; 
                                 items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-col></ons-row><hr><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                                 flag.appendChild(items);       
                                 frame.appendChild(flag);
@@ -288,10 +288,9 @@ function displayList(dbName, listId){
 }
 
 //リストアイテム
-function onClickItem(itemLink,dbName,objectId){  
+function onClickItem(itemLink,dbName,objectId,page){  
 
-    showModal(0);  //くるくる
-
+  //  showModal(0);  //くるくる
     var item = ncmb.DataStore("Item_info");
     item.equalTo("objectId",itemLink)
     .fetchAll() 
@@ -310,15 +309,19 @@ function onClickItem(itemLink,dbName,objectId){
                 e_geo=results[0].get("geo");
             break;
         }
-        onClickInfo(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId);
-        showModal(1);  //くるくる
+        if(page=="map"){
+             onClickInfos(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId,page);
+        }else{
+        onClickInfo(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId,page);
+        }
+    //    showModal(1);  //くるくる
     })
     .catch(function(err){
         console.log("error"); // エラー処理
     }); 
 }
 
-function onClickInfo(title,detail,img,dbName,objectId){
+function onClickInfos(title,detail,img,dbName,objectId,page){
     var options = {};
     options.data = {};
     options.animation = 'slide';
@@ -330,29 +333,132 @@ function onClickInfo(title,detail,img,dbName,objectId){
     switch(dbName){
         case "Coupon_List":
             options.data.couponId=objectId; //クーポンボタン用
-            NatNavi.pushPage('coupon_info.html', options); 
+            if(page=="map"){
+                navigator2.pushPage('coupon_info.html', options); 
+            }else{
+                navigator1.pushPage('coupon_info.html', options); 
+            }
         break;
         case "Coupon_Record":
             options.data.couponId=objectId; //クーポンボタン用
-            NatNavi.pushPage('coupon_info.html', options);  
+            if(page=="map"){
+                navigator2.pushPage('coupon_info.html', options); 
+            }else{
+                navigator1.pushPage('coupon_info.html', options); 
+            }
         break;
         case "Event_List":
-            NatNavi.pushPage('event_info.html', options);
+            if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
         break;
         case "Tourism_List":
-            NatNavi.pushPage('event_info.html', options);
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
         break;
         case "Shop_List":
-            NatNavi.pushPage('event_info.html', options);
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
         break;
         case "Food_List":
-            NatNavi.pushPage('event_info.html', options);
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
         break;
         case "News_List":
-            NatNavi.pushPage('event_info.html', options);
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
         break;
         default:
-            NatNavi.pushPage('info.html', options);
+             if(page=="map"){
+                navigator2.pushPage('info.html', options); 
+            }else{
+                navigator1.pushPage('info.html', options); 
+            }
+        break;
+    }
+}
+
+function onClickInfo(title,detail,img,dbName,objectId,page){
+    var options = {};
+    options.data = {};
+    options.animation = 'slide';
+    options.data.title = title;
+    options.data.detail = detail;
+    options.data.img = img
+    options.data.dbName=dbName;
+
+    switch(dbName){
+        case "Coupon_List":
+            options.data.couponId=objectId; //クーポンボタン用
+            if(page=="map"){
+                navigator2.pushPage('coupon_info.html', options); 
+            }else{
+                navigator1.pushPage('coupon_info.html', options); 
+            }
+        break;
+        case "Coupon_Record":
+            options.data.couponId=objectId; //クーポンボタン用
+            if(page=="map"){
+                navigator2.pushPage('coupon_info.html', options); 
+            }else{
+                navigator1.pushPage('coupon_info.html', options); 
+            }
+        break;
+        case "Event_List":
+            if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
+        break;
+        case "Tourism_List":
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
+        break;
+        case "Shop_List":
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
+        break;
+        case "Food_List":
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
+        break;
+        case "News_List":
+             if(page=="map"){
+                navigator2.pushPage('event_info.html', options); 
+            }else{
+                navigator1.pushPage('event_info.html', options); 
+            }
+        break;
+        default:
+             if(page=="map"){
+                navigator2.pushPage('info.html', options); 
+            }else{
+                navigator1.pushPage('info.html', options); 
+            }
         break;
     }
 }
@@ -383,8 +489,7 @@ function CheckMove(url,title) {
 }
 
 //クーポン使用okボタン押下
-function registerCoupon(myCouponId){
-    alert("画面を見せてください\n\n"+showCoupon);      
+function registerCoupon(myCouponId){    
     var count=0;     //現在の回数
 
     var myCoupon = ncmb.DataStore("Coupon_Record");     //データがあるか判別
@@ -393,13 +498,18 @@ function registerCoupon(myCouponId){
     .fetchAll()
     .then(function(results){      
         count=results[0].get("limit");
-        results[0].set("limit",count-1)
-        return results[0].update();
+        if(count==0){
+            alert("このクーポンはもう使えません");
+        }else{
+            alert("画面を見せてください\n\n"+showCoupon);  
+            results[0].set("limit",count-1)
+            return results[0].update();
+        }
     })
     .catch(function(err){
         console.log(err); // エラー処理
     }); 
-    NatNavi.popPage();
+    navigator1.popPage();
 }
 
 //日付取得

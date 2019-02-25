@@ -201,7 +201,7 @@ function onCurrentSuccess(position){
 
 //登録されたポイントを引き出し地図上に表示する
 function find_geopoint(checkDataStore){
-    console.log(checkDataStore);
+    console.log(checkDataStore+'aaa');
     var lonLat = map.getCenter().transform(projection900913,projection4326);
     lonLat.lat = Math.round(lonLat.lat*1000000)/1000000;
     lonLat.lon = Math.round(lonLat.lon*1000000)/1000000;
@@ -240,9 +240,9 @@ function find_geopoint(checkDataStore){
             //マーカー名と詳細ボタンをポップアップで表示
             marker.tag = regist_name;
             if(checkDataStore=="Coupon_List"){
-                marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+')">詳しく</button></div>';
+                marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+','+"'map'"+')">詳しく</button></div>';
             }else{
-                marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"''"+')" >詳しく</button>';
+                marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"''"+','+"'map'"+')" >詳しく</button>';
             }
             // マーカーをタップした際にポップアップを表示
             marker.events.register("touchstart", marker, function(event) {
@@ -375,8 +375,7 @@ function refresh() {
     function(err) {
         console.log('getCurrentPosition:'+err.message);
     },
-    {maximumAge: 10000, timeout: 5000, enableHighAccuracy: true}
-    );
+w3heeiui    );
 }
 
 //検索ダイアログ
