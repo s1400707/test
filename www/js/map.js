@@ -240,9 +240,9 @@ function find_geopoint(checkDataStore){
             //マーカー名と詳細ボタンをポップアップで表示
             marker.tag = regist_name;
             if(checkDataStore=="Coupon_List"){
-                marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+','+"'map'"+')">詳しく</button></div>';
+                marker.tag += '<div><button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"'"+result.get("objectId")+"'"+')">詳しく</button></div>';
             }else{
-                marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"''"+','+"'map'"+')" >詳しく</button>';
+                marker.tag += '<button class="button1" onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+checkDataStore+"'"+','+"''"+')" >詳しく</button>';
             }
             // マーカーをタップした際にポップアップを表示
             marker.events.register("touchstart", marker, function(event) {

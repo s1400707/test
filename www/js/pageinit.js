@@ -233,7 +233,7 @@ function displayList(dbName, listId){
 
                                 items = document.createElement('ons-list-item');  //アイテム表示
                                 items.className="listItem1";
-                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"),"main");}; 
+                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
                                 items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-row><hr><ons-row><ons-col>'+c_limit[i]+'</ons-col></ons-row><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                                 flag.appendChild(items);       
                                 frame.appendChild(flag);
@@ -250,7 +250,7 @@ function displayList(dbName, listId){
                         pic=result.get("thumbnail");
                         loadNews(pic,reader);
                         reader.onload= function(e){ //読み込み終了
-                            items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+','+"'main'"+')"  class="cal"><img src="'+reader.result+'" class="calImage"/><H7 class="calText">'+result.get("name")+'</H7></ons-carousel-item>';                 
+                            items ='<ons-carousel-item  onclick="onClickItem('+"'"+result.get("link")+"'"+','+"'"+dbName+"'"+','+"'"+result.get("objectId")+"'"+')"  class="cal"><img src="'+reader.result+'" class="calImage"/><H7 class="calText">'+result.get("name")+'</H7></ons-carousel-item>';                 
                             document.getElementById(listId).insertAdjacentHTML('beforeend', items);
                         }
                     break;
@@ -271,7 +271,7 @@ function displayList(dbName, listId){
                                 }
                                 items= document.createElement('ons-list-item');
                                 items.className="listItem1";
-                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"),"main");}; 
+                                items.onclick=function(){onClickItem(result.get("link"),dbName,result.get("objectId"));}; 
                                 items.innerHTML='<ons-row><ons-col width="30%"><img class="listImage" src ="'+reader.result+'" /></ons-col><ons-col><ons-row><ons-col><H5>'+result.get("name")+' </H5></ons-col></ons-row><hr><ons-row><ons-col>'+deadline+'</ons-col></ons-row></ons-col></ons-row>';
                                 flag.appendChild(items);       
                                 frame.appendChild(flag);
@@ -317,9 +317,11 @@ function onClickItem(itemLink,dbName,objectId,page){
     }); 
 }
 
- var options = {};
+
 function onClickInfo(title,detail,img,dbName,objectId,page){
-   
+    var options = {};
+    var openedTab=0;  //どのタブが開いているか
+
     options.data = {};
     options.animation = 'slide';
     options.data.title = title;
@@ -327,10 +329,12 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
     options.data.img = img
     options.data.dbName=dbName;
 
+    opendTab=myTabbar.getActiveTabIndex();
+
     switch(dbName){  
         case "Coupon_List":
             options.data.couponId=objectId; //クーポンボタン用
-            if(page=="map"){
+            if(opendTab==1){
                 navigator2.pushPage('coupon_info.html', options); 
             }else{
                 navigator1.pushPage('coupon_info.html', options); 
@@ -338,14 +342,14 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
         break;
         case "Coupon_Record":
             options.data.couponId=objectId; //クーポンボタン用
-            if(page=="map"){
+            if(opendTab==1){
                 navigator2.pushPage('coupon_info.html', options); 
             }else{
                 navigator1.pushPage('coupon_info.html', options); 
             }
         break;
         case "Event_List":
-            if(page=="map"){
+            if(opendTab==1){
                 console.log("a");
                 navigator2.pushPage('event_info.html', options); 
             }else{
@@ -354,28 +358,28 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
             }
         break;
         case "Tourism_List":
-             if(page=="map"){
+             if(opendTab==1){
                 navigator2.pushPage('event_info.html', options); 
             }else{
                 navigator1.pushPage('event_info.html', options); 
             }
         break;
         case "Shop_List":
-             if(page=="map"){
+             if(opendTab==1){
                 navigator2.pushPage('event_info.html', options); 
             }else{
                 navigator1.pushPage('event_info.html', options); 
             }
         break;
         case "Food_List":
-             if(page=="map"){
+             if(opendTab==1){
                 navigator2.pushPage('event_info.html', options); 
             }else{
                 navigator1.pushPage('event_info.html', options); 
             }
         break;
         case "News_List":
-             if(page=="map"){
+             if(opendTab==1){
                 navigator2.pushPage('event_info.html', options); 
             }else{
 
@@ -383,7 +387,7 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
             }
         break;
         default:
-             if(page=="map"){
+             if(opendTab==1){
                 navigator2.pushPage('info.html', options); 
             }else{
                 navigator1.pushPage('info.html', options); 
@@ -579,3 +583,8 @@ function searchInfo(dbName,listId){
     }); 
 }
 
+//maptabが押されたとき、mainの詳細情報を閉じる
+//詳細情報をmainとmapの両方で開くとバグるため
+function tabClick(){
+    navigator1.popPage();
+}
