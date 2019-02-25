@@ -288,7 +288,7 @@ function displayList(dbName, listId){
 }
 
 //リストアイテム
-function onClickItem(itemLink,dbName,objectId,page){  
+function onClickItem(itemLink,dbName,objectId,page){ 
 
   //  showModal(0);  //くるくる
     var item = ncmb.DataStore("Item_info");
@@ -309,11 +309,7 @@ function onClickItem(itemLink,dbName,objectId,page){
                 e_geo=results[0].get("geo");
             break;
         }
-        if(page=="map"){
-             onClickInfos(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId,page);
-        }else{
         onClickInfo(results[0].get("title"), results[0].get("detail"), results[0].get("img"),dbName,objectId,page);
-        }
     //    showModal(1);  //くるくる
     })
     .catch(function(err){
@@ -321,79 +317,9 @@ function onClickItem(itemLink,dbName,objectId,page){
     }); 
 }
 
-function onClickInfos(title,detail,img,dbName,objectId,page){
-    var options = {};
-    options.data = {};
-    options.animation = 'slide';
-    options.data.title = title;
-    options.data.detail = detail;
-    options.data.img = img
-    options.data.dbName=dbName;
-
-    switch(dbName){
-        case "Coupon_List":
-            options.data.couponId=objectId; //クーポンボタン用
-            if(page=="map"){
-                navigator2.pushPage('coupon_info.html', options); 
-            }else{
-                navigator1.pushPage('coupon_info.html', options); 
-            }
-        break;
-        case "Coupon_Record":
-            options.data.couponId=objectId; //クーポンボタン用
-            if(page=="map"){
-                navigator2.pushPage('coupon_info.html', options); 
-            }else{
-                navigator1.pushPage('coupon_info.html', options); 
-            }
-        break;
-        case "Event_List":
-            if(page=="map"){
-                navigator2.pushPage('event_info.html', options); 
-            }else{
-                navigator1.pushPage('event_info.html', options); 
-            }
-        break;
-        case "Tourism_List":
-             if(page=="map"){
-                navigator2.pushPage('event_info.html', options); 
-            }else{
-                navigator1.pushPage('event_info.html', options); 
-            }
-        break;
-        case "Shop_List":
-             if(page=="map"){
-                navigator2.pushPage('event_info.html', options); 
-            }else{
-                navigator1.pushPage('event_info.html', options); 
-            }
-        break;
-        case "Food_List":
-             if(page=="map"){
-                navigator2.pushPage('event_info.html', options); 
-            }else{
-                navigator1.pushPage('event_info.html', options); 
-            }
-        break;
-        case "News_List":
-             if(page=="map"){
-                navigator2.pushPage('event_info.html', options); 
-            }else{
-                navigator1.pushPage('event_info.html', options); 
-            }
-        break;
-        default:
-             if(page=="map"){
-                navigator2.pushPage('info.html', options); 
-            }else{
-                navigator1.pushPage('info.html', options); 
-            }
-        break;
-    }
-}
-
+ var options = {};
 function onClickInfo(title,detail,img,dbName,objectId,page){
-    var options = {};
+   
     options.data = {};
     options.animation = 'slide';
     options.data.title = title;
@@ -401,7 +327,7 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
     options.data.img = img
     options.data.dbName=dbName;
 
-    switch(dbName){
+    switch(dbName){  
         case "Coupon_List":
             options.data.couponId=objectId; //クーポンボタン用
             if(page=="map"){
@@ -420,8 +346,10 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
         break;
         case "Event_List":
             if(page=="map"){
+                console.log("a");
                 navigator2.pushPage('event_info.html', options); 
             }else{
+                console.log("b");
                 navigator1.pushPage('event_info.html', options); 
             }
         break;
@@ -450,6 +378,7 @@ function onClickInfo(title,detail,img,dbName,objectId,page){
              if(page=="map"){
                 navigator2.pushPage('event_info.html', options); 
             }else{
+
                 navigator1.pushPage('event_info.html', options); 
             }
         break;
